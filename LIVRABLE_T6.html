@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Thème 6: La régréssion logistique</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="LIVRABLE_T6_files/libs/clipboard/clipboard.min.js"></script>
+<script src="LIVRABLE_T6_files/libs/quarto-html/quarto.js"></script>
+<script src="LIVRABLE_T6_files/libs/quarto-html/popper.min.js"></script>
+<script src="LIVRABLE_T6_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="LIVRABLE_T6_files/libs/quarto-html/anchor.min.js"></script>
+<link href="LIVRABLE_T6_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="LIVRABLE_T6_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="LIVRABLE_T6_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="LIVRABLE_T6_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="LIVRABLE_T6_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="LIVRABLE_T6_files/styles.css">
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">0.1</span> Introduction</a></li>
+  <li><a href="#objectif" id="toc-objectif" class="nav-link" data-scroll-target="#objectif"><span class="header-section-number">0.2</span> Objectif</a></li>
+  <li><a href="#pourquoi-la-régression-linéaire-ne-marche-plus" id="toc-pourquoi-la-régression-linéaire-ne-marche-plus" class="nav-link" data-scroll-target="#pourquoi-la-régression-linéaire-ne-marche-plus"><span class="header-section-number">0.3</span> Pourquoi la régression linéaire ne marche plus?</a></li>
+  <li><a href="#la-solution-au-problème" id="toc-la-solution-au-problème" class="nav-link" data-scroll-target="#la-solution-au-problème"><span class="header-section-number">0.4</span> La solution au problème</a></li>
+  <li><a href="#complexité-du-modèle" id="toc-complexité-du-modèle" class="nav-link" data-scroll-target="#complexité-du-modèle"><span class="header-section-number">0.5</span> Complexité du modèle</a></li>
+  <li><a href="#mise-en-situation-1" id="toc-mise-en-situation-1" class="nav-link" data-scroll-target="#mise-en-situation-1"><span class="header-section-number">0.6</span> Mise en situation 1</a></li>
+  <li><a href="#quelques-statistiques-descriptives" id="toc-quelques-statistiques-descriptives" class="nav-link" data-scroll-target="#quelques-statistiques-descriptives"><span class="header-section-number">0.7</span> Quelques statistiques descriptives</a></li>
+  <li><a href="#régression-logistique-avec-r" id="toc-régression-logistique-avec-r" class="nav-link" data-scroll-target="#régression-logistique-avec-r"><span class="header-section-number">0.8</span> Régression logistique avec R</a></li>
+  <li><a href="#méthode-destimation-des-paramètres" id="toc-méthode-destimation-des-paramètres" class="nav-link" data-scroll-target="#méthode-destimation-des-paramètres"><span class="header-section-number">0.9</span> Méthode d’estimation des paramètres</a></li>
+  <li><a href="#méthode-destimation-des-paramètres-suite" id="toc-méthode-destimation-des-paramètres-suite" class="nav-link" data-scroll-target="#méthode-destimation-des-paramètres-suite"><span class="header-section-number">0.10</span> Méthode d’estimation des paramètres (suite)</a></li>
+  <li><a href="#modèle-1-cas-dune-variable-explicative-qualitative-sexe" id="toc-modèle-1-cas-dune-variable-explicative-qualitative-sexe" class="nav-link" data-scroll-target="#modèle-1-cas-dune-variable-explicative-qualitative-sexe"><span class="header-section-number">0.11</span> Modèle 1: cas d’une variable explicative qualitative « Sexe »</a></li>
+  <li><a href="#modèle-2-cas-dune-variable-explicative-quantitative-minutes" id="toc-modèle-2-cas-dune-variable-explicative-quantitative-minutes" class="nav-link" data-scroll-target="#modèle-2-cas-dune-variable-explicative-quantitative-minutes"><span class="header-section-number">0.12</span> Modèle 2: Cas d’une variable explicative quantitative «Minutes»</a></li>
+  <li><a href="#modèle-3-modèle-avec-toutes-les-variables-explicatives" id="toc-modèle-3-modèle-avec-toutes-les-variables-explicatives" class="nav-link" data-scroll-target="#modèle-3-modèle-avec-toutes-les-variables-explicatives"><span class="header-section-number">0.13</span> Modèle 3 : modèle avec toutes les variables explicatives</a></li>
+  <li><a href="#table-de-classification" id="toc-table-de-classification" class="nav-link" data-scroll-target="#table-de-classification"><span class="header-section-number">0.14</span> Table de classification</a></li>
+  <li><a href="#mise-en-situation-2" id="toc-mise-en-situation-2" class="nav-link" data-scroll-target="#mise-en-situation-2"><span class="header-section-number">0.15</span> Mise en situation 2</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Thème 6: La régréssion logistique</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level3" data-number="0.1">
+<h3 data-number="0.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">0.1</span> Introduction</h3>
+<p>La régression logistique est la méthode d’apprentissage la plus populaire après la régression linéaire.</p>
+<ul>
+<li><p>En régression linéaire la variable dépendante (Y) doit être quantitative.</p></li>
+<li><p>En régression logistique la variable réponse (Y) ne prend que deux valeurs. Elle est dans ce cas codée sous forme d’une variable binaire(Y=0 ou 1).</p></li>
+</ul>
+<p>Exemples</p>
+<p>▪ Un client répond favorablement à une offre promotionnelle (oui ou non).</p>
+<p>▪ Un client décide de renouveler son contrat de téléphone cellulaire.</p>
+<p>▪ Une entreprise fait faillite.</p>
+<p>▪ Un client fait défaut de paiement du crédit hypothécaire.</p>
+<p>▪ Un employé quitte la compagnie.</p>
+<p>▪ Un internaute achète un produit en ligne…</p>
+</section>
+<section id="objectif" class="level3" data-number="0.2">
+<h3 data-number="0.2" class="anchored" data-anchor-id="objectif"><span class="header-section-number">0.2</span> Objectif</h3>
+<p>On dispose d’une variable <em>binaire</em> Y (prend 1 en cas <em>d’occurrence de l’évènement</em> et 0 si <em>non occurrence</em>) et d’un ensemble de p prédicteurs X (qualitatifs ou quantitatifs).</p>
+<p>Les buts de la régression logistique sont essentiellement les mêmes que la régression linéaire:</p>
+<ul>
+<li><p><strong>Comprendre</strong> comment les variables indépendantes influencent la variable dépendante Y: modèle explicatif du comportement de Y.</p></li>
+<li><p><strong>Prévoir</strong> des valeurs de Y futures à partir des variables indépendantes: modèle prédictif.</p></li>
+</ul>
+</section>
+<section id="pourquoi-la-régression-linéaire-ne-marche-plus" class="level3" data-number="0.3">
+<h3 data-number="0.3" class="anchored" data-anchor-id="pourquoi-la-régression-linéaire-ne-marche-plus"><span class="header-section-number">0.3</span> Pourquoi la régression linéaire ne marche plus?</h3>
+<p>Le modèle de régression linéaire a la forme suivante:</p>
+<p><span class="math display">\[
+E[Y] = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p
+\quad \text{où } E[Y] \text{ représente l’espérance (ou la valeur attendue).}
+\]</span></p>
+<p>Quand Y est binaire, nous pouvons montrer que l’espérance de la variable binaire est en fait la probabilité que Y=1.</p>
+<p>Le modèle de régression linéaire utilisé avec une variable binaire devient donc :</p>
+<p><span class="math display">\[ P(Y = 1) = \cancel{\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p} \]</span></p>
+<p><strong>Problème : le côté gauche (P[Y=1])</strong> de ce modèle prend des <strong>valeurs entre 0 et 1</strong> tandis que le côté droit peut prendre n’importe quelle valeur entre (−∞ 𝑒𝑡 + ∞). Ce modèle est donc inadéquat et pourrait mener à des prédictions bizarres. Par exemple, le modèle pourrait dire que la probabilité que le client quitte est -0.3 ! <strong>Or une probabilité est toujours positive!</strong></p>
+</section>
+<section id="la-solution-au-problème" class="level3" data-number="0.4">
+<h3 data-number="0.4" class="anchored" data-anchor-id="la-solution-au-problème"><span class="header-section-number">0.4</span> La solution au problème</h3>
+<p>Solution: Pour éviter que les résultats ne fassent pas du sens, on va transformer le côté gauche du modèle afin que les deux côtés puissent prendre les mêmes valeurs</p>
+<ul>
+<li><p>Cet objectif est atteint si on utilise le logit(p): <span class="math display">\[ \log \left( \frac{P(Y=1)}{P(Y=0)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p \]</span></p></li>
+<li><p>Ce modèle est équivalent à</p>
+<p><span class="math display">\[
+\frac{P(Y=1)}{P(Y=0)} = e^{\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p}
+\quad \text{où } \frac{P(Y=1)}{P(Y=0)} \text{ est un odds (une cote).}
+\]</span></p></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>La régression logistique est donc basée sur ce modèle au lieu du modèle de régression linéaire.</p></li>
+<li><p>Un odds ou une cote de 4 <em>veut dire que P[ Y=1] est 4 fois plus grande que P[ Y=0] (donc que P[Y=1]=0.8).</em></p></li>
+<li><p>Cote= 2</p>
+<p><span class="math display">\[
+\frac{P(Y=1)}{P(Y=0)} = 2 \implies P(Y=1) = 2 \times P(Y=0) = 2 \times (1 - P(Y=1))
+\]</span></p>
+<p><span class="math display">\[
+\Rightarrow P(Y=1) = 0.667
+\]</span></p></li>
+</ul>
+<pre><code></code></pre>
+</section>
+<section id="complexité-du-modèle" class="level3" data-number="0.5">
+<h3 data-number="0.5" class="anchored" data-anchor-id="complexité-du-modèle"><span class="header-section-number">0.5</span> Complexité du modèle</h3>
+<p>Le modèle de régression logistique est plus complexe que le modèle de régression linéaire pour les raisons suivantes:</p>
+<ul>
+<li><p>L’algorithme pour estimer les paramètres est plus complexe. Cela peut amener des problèmes de convergence ou des messages d’erreur.</p></li>
+<li><p>Les coefficients sont plus difficiles à interpréter.</p></li>
+<li><p>La prévision est délicate (on doit déterminer un point de coupure).</p>
+<p><em>On abordera tous ces points ultérieurement.</em></p></li>
+</ul>
+</section>
+<section id="mise-en-situation-1" class="level3" data-number="0.6">
+<h3 data-number="0.6" class="anchored" data-anchor-id="mise-en-situation-1"><span class="header-section-number">0.6</span> Mise en situation 1</h3>
+<p>Une compagnie de téléphonie cellulaire cherche à déterminer les facteurs qui augmentent le risque de non renouvellement du contrat des clients.</p>
+<p>Le fichier Télécommunication.csv contient 479 observations.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 89%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Nom_Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Y</td>
+<td style="text-align: left;">Le client a quitté à la fin de son contrat (0 = non, 1 = oui)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sexe</td>
+<td style="text-align: left;">Sexe du répondant (0 = Homme, 1 = Femme)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Age</td>
+<td style="text-align: left;">Âge en années du client</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Revenu</td>
+<td style="text-align: left;">Revenu en 4 catégories : 1 = (0<span class="math inline">\(, 20 000\)</span>), 2 = (20 000<span class="math inline">\(, 50 000\)</span>), 3 = (50 000<span class="math inline">\(, 80 000\)</span>), 4 = (80 000$, ∞)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Minutes</td>
+<td style="text-align: left;">Nombre moyen de minutes d’utilisation du téléphone par mois</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Facture</td>
+<td style="text-align: left;">Solde moyen du client (montant de la facture)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Forfait</td>
+<td style="text-align: left;">Type de forfait utilisé par le client vers la fin de son contrat (valeurs possibles : 1, 2, 3 ou 4)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir le répertoire de travail</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/Fatou/OneDrive - HEC Montréal/PROJET SUPERVISE/Data"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Importer le jeu de données</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>telecom<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"Télécommunication.csv"</span>,<span class="at">sep=</span><span class="st">";"</span>, <span class="at">header=</span><span class="cn">TRUE</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformer les variables catégorielles en facteur</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>telecom<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(telecom<span class="sc">$</span>y)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>telecom<span class="sc">$</span>Sexe <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(telecom<span class="sc">$</span>Sexe)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>telecom<span class="sc">$</span>Revenu <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(telecom<span class="sc">$</span>Revenu)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>telecom<span class="sc">$</span>Forfait <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(telecom<span class="sc">$</span>Forfait)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir 'Facture' en numérique </span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>telecom<span class="sc">$</span>Facture <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">"."</span>, telecom<span class="sc">$</span>Facture))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="quelques-statistiques-descriptives" class="level3" data-number="0.7">
+<h3 data-number="0.7" class="anchored" data-anchor-id="quelques-statistiques-descriptives"><span class="header-section-number">0.7</span> Quelques statistiques descriptives</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des fréquences de la variable Y</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>freq_y <span class="ot">&lt;-</span> <span class="fu">table</span>(telecom<span class="sc">$</span>y)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des pourcentages</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pourcentage <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(freq_y) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>pourcentage_cumule <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(pourcentage)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un data frame récapitulatif</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>tableau_resume_y <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">names</span>(freq_y), <span class="st">"Total"</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  Fréquence <span class="ot">=</span> <span class="fu">c</span>(freq_y, <span class="fu">sum</span>(freq_y)),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pourcentage =</span> <span class="fu">c</span>(<span class="fu">round</span>(pourcentage, <span class="dv">1</span>), <span class="fl">100.0</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  Pourcentage_cumulé <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">round</span>(pourcentage, <span class="dv">1</span>), <span class="cn">NA</span>)  </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>tableau_resume_y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      y Fréquence Pourcentage Pourcentage_cumulé
+0     0       327        68.3               68.3
+1     1       152        31.7               31.7
+  Total       479       100.0                 NA</code></pre>
+</div>
+</div>
+<p>Tableau croisé y*Sexe</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des fréquences de Y par Sexe</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tableau_y_sexe <span class="ot">&lt;-</span> <span class="fu">table</span>(telecom<span class="sc">$</span>y, telecom<span class="sc">$</span>Sexe)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des pourcentages de Y par Sexe (par colonne)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pourcentage_sexe_y <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(tableau_y_sexe, <span class="at">margin =</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Conversion en data frames</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>y_sexe_freq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tableau_y_sexe)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>y_sexe_pourcentage <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pourcentage_sexe_y)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Renommer les colonnes</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y_sexe_freq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"Sexe"</span>, <span class="st">"Fréquence"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y_sexe_pourcentage) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"Sexe"</span>, <span class="st">"Pourcentage"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fusionner les deux tableaux sur y et Sexe</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>tableau_final_y_sexe <span class="ot">&lt;-</span> <span class="fu">merge</span>(y_sexe_freq, y_sexe_pourcentage, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"Sexe"</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau final</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>tableau_final_y_sexe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y Sexe Fréquence Pourcentage
+1 0    0       203    70.48611
+2 0    1       124    64.92147
+3 1    0        85    29.51389
+4 1    1        67    35.07853</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger le package dplyr</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistiques descriptives de 'Minutes' par modalité de Y</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>stat_descriptive_minutes <span class="ot">&lt;-</span> telecom <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">n</span>(),  <span class="co"># Nombre d'observations</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moyenne =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Minutes, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mediane =</span> <span class="fu">round</span>(<span class="fu">median</span>(Minutes, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ecart_type =</span> <span class="fu">round</span>(<span class="fu">sd</span>(Minutes, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Minimum =</span> <span class="fu">min</span>(Minutes, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Maximum =</span> <span class="fu">max</span>(Minutes, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau de résultats</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>stat_descriptive_minutes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  y         N Moyenne Mediane Ecart_type Minimum Maximum
+  &lt;fct&gt; &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;
+1 0       327    281.     244       153.      13     588
+2 1       152    338.     284       164.      98     601</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Dans l’échantillon observé, 31.7% (152/479) des clients n’ont pas renouvelé leur contrat comparativement à 68.3% l’ayant fait.</p></li>
+<li><p>35.1% des femmes dans l’échantillon (femmes) ont quitté la compagnie comparativement à 29.5% chez les hommes.</p></li>
+<li><p>Le nombre de minutes moyen chez ceux qui n’ont pas renouvelé le contrat s’élève à 338.48 minutes comparativement à 281.31 chez ceux qui n’ont pas quitté.</p>
+<p>Tableau croisé y*Forfait</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des fréquences de Y par Forfait</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tableau_y_forfait <span class="ot">&lt;-</span> <span class="fu">table</span>(telecom<span class="sc">$</span>y, telecom<span class="sc">$</span>Forfait)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des pourcentages de Y par Forfait (par colonne)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pourcentage_forfait_y <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(tableau_y_forfait, <span class="at">margin =</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Conversion des tableaux en data frames</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>y_forfait_freq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tableau_y_forfait)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>y_forfait_pourcentage <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pourcentage_forfait_y)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Renommer les colonnes</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y_forfait_freq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"Forfait"</span>, <span class="st">"Fréquence"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y_forfait_pourcentage) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"Forfait"</span>, <span class="st">"Pourcentage"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fusionner les deux tableaux sur y et Forfait</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>tableau_final_y_forfait <span class="ot">&lt;-</span> <span class="fu">merge</span>(y_forfait_freq, y_forfait_pourcentage, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"y"</span>, <span class="st">"Forfait"</span>))</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau final</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>tableau_final_y_forfait</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y Forfait Fréquence Pourcentage
+1 0       1        81    65.85366
+2 0       2       117    75.48387
+3 0       3        73    66.36364
+4 0       4        56    61.53846
+5 1       1        42    34.14634
+6 1       2        38    24.51613
+7 1       3        37    33.63636
+8 1       4        35    38.46154</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger le package ggplot2</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Barplot de Y selon les types de Forfait</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> telecom, <span class="fu">aes</span>(<span class="at">x =</span> y, <span class="at">fill =</span> Forfait)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span>  </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Bar Chart"</span>,  </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"y"</span>,             </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Compte"</span>,         </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Forfait"</span>      </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T6_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des statistiques descriptives de Facture par modalité de Y</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>stat_descriptive_facture <span class="ot">&lt;-</span> telecom <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">n</span>(),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moyenne =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Facture, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mediane =</span> <span class="fu">round</span>(<span class="fu">median</span>(Facture, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ecart_type =</span> <span class="fu">round</span>(<span class="fu">sd</span>(Facture, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">3</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Minimum =</span> <span class="fu">min</span>(Facture, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Maximum =</span> <span class="fu">max</span>(Facture, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau de résultats</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>stat_descriptive_facture</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  y         N Moyenne Mediane Ecart_type Minimum Maximum
+  &lt;fct&gt; &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 0       327    58.9    56.7       28.5    10      140.
+2 1       152    64.4    63.7       27.0    19.3    136 </code></pre>
+</div>
+</div>
+<ul>
+<li><p>Une grande proportion (38.5%), parmi ceux qui détiennent le forfait 4, ne renouvellent pas le contrat.</p></li>
+<li><p>La facture moyenne chez ceux qui n’ont pas renouvelé le contrat s’élève à 64.37$ comparativement à 58.88$ chez ceux qui n’ont pas quitté.</p></li>
+</ul>
+</section>
+<section id="régression-logistique-avec-r" class="level3" data-number="0.8">
+<h3 data-number="0.8" class="anchored" data-anchor-id="régression-logistique-avec-r"><span class="header-section-number">0.8</span> Régression logistique avec R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajuster un modèle logistique en R avec la fonction glm et la famille binomiale</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># reg_logistique &lt;- glm(y ~ Variables_explicatives, data = data, family = binomial(link = "logit"))</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Résumé du modèle</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(reg_logistique)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="attention-identifiez-les-variables-explicatives-qualitatives" class="level4" data-number="0.8.1">
+<h4 data-number="0.8.1" class="anchored" data-anchor-id="attention-identifiez-les-variables-explicatives-qualitatives"><span class="header-section-number">0.8.1</span> Attention: Identifiez les variables explicatives qualitatives!</h4>
+<p>Il ne faut pas oublier de convertir la variable y et les variables qualitatives en facteurs. En R, on utilise as.factor() pour cela. Nous l’avons déjà fait au début afin que la régression logistique interprète correctement les variables catégorielles. Assurez-vous d’effectuer cette transformation avant d’ajuster votre modèle pour que la catégorie de référence soit bien prise en compte.</p>
+</section>
+</section>
+<section id="méthode-destimation-des-paramètres" class="level3" data-number="0.9">
+<h3 data-number="0.9" class="anchored" data-anchor-id="méthode-destimation-des-paramètres"><span class="header-section-number">0.9</span> Méthode d’estimation des paramètres</h3>
+<ul>
+<li><p>Rappel modèle: <span class="math display">\[
+    \frac{P(Y=1)}{P(Y=0)} = e^{\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p}
+    \]</span></p></li>
+<li><p>Modèle théorique (population): <span class="math display">\[
+    \log \left( \frac{P}{1 - P} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p
+    \]</span></p></li>
+<li><p>Modèle ajusté (échantillon): <span class="math display">\[
+    \log \left( \frac{P}{1 - P} \right) = b_0 + b_1 X_1 + b_2 X_2 + \dots + b_p X_p
+    \]</span></p></li>
+<li><p>Pour des valeurs de X₁, X₂, … Xₚ données, la probabilité estimée de l’occurrence de l’événement :</p>
+<p><span class="math display">\[
+\hat{p}(Y) = \frac{1}{1 + e^{-(b_0 + b_1 X_1 + b_2 X_2 + \dots + b_p X_p)}}
+\]</span></p></li>
+</ul>
+<pre><code></code></pre>
+<section id="le-choix-du-point-de-coupure" class="level4" data-number="0.9.1">
+<h4 data-number="0.9.1" class="anchored" data-anchor-id="le-choix-du-point-de-coupure"><span class="header-section-number">0.9.1</span> Le choix du point de coupure</h4>
+<ul>
+<li><p>Le modèle ajusté permet ainsi d’obtenir des prévisions de Y en spécifiant un point de coupure (seuil): <span class="math display">\[
+    \hat{p} = \frac{1}{1 + e^{-(b_0 + b_1 X_1 + b_2 X_2 + \dots + b_p X_p)}}
+    \]</span></p></li>
+<li><p>Par défaut, R choisit un seuil de 0.5.</p></li>
+<li><p>Ce point de coupure peut être changé si on n’accorde pas le même poids au fait de faussement classer un 0 ou de mal classer un 1</p>
+<p><span class="math display">\[
+\text{si } \hat{p} &lt; 0.5 \text{ alors il est plus probable que } \hat{Y} = 0
+\]</span></p>
+<p><span class="math display">\[
+\text{si } \hat{p} &gt; 0.5 \text{ alors il est plus probable que } \hat{Y} = 1
+\]</span></p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Choisir un point de coupure manuellement</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prédire les probabilités</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#telecom$prob_pred &lt;- predict(reg_logistique, type = "response")</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#coupure &lt;- 0.4  # Exemple on place le seuil à 40%</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#telecom$y_pred_ &lt;- ifelse(telecom$prob_pred &gt; coupure, 1, 0)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="méthode-destimation-des-paramètres-suite" class="level3" data-number="0.10">
+<h3 data-number="0.10" class="anchored" data-anchor-id="méthode-destimation-des-paramètres-suite"><span class="header-section-number">0.10</span> Méthode d’estimation des paramètres (suite)</h3>
+<ul>
+<li><p>Pour estimer les paramètres du modèle, la méthode la plus utilisée est celle du Maximum de vraisemblance ML. Cette méthode consiste à trouver les valeurs des paramètres qui rendent les données les plus probables possibles, c.à.d qui maximisent la vraisemblance.</p></li>
+<li><p>On dérive de cette méthode une quantité (-2LL) qui traduit en quelque sorte la somme des carrés des résidus (SSE) en régression linéaire. Lorsqu’on ajoute une variable explicative au modèle, on s’attend à ce que le SSE diminue.</p></li>
+<li><p>(-2LL) traduit donc la portion non expliquée du modèle.</p></li>
+<li><p>On utilise règle générale la différence entre (-2LL) de deux modèles pour statuer sur la significativité de l’amélioration marginale apportée par l’ajout de variables (supplémentaires). C’est en quelque sorte équivalent à un test sur un sous ensemble de paramètres.</p></li>
+<li><p>Si on ajuste des modèles hiérarchiques, on peut prouver que la quantité suivante:</p>
+<p><span class="math display">\[
+\text{Différence (ratio de vraisemblance)} = [-2\ell(\text{modèle réduit}) - (-2\ell(\text{modèle complet}))] = 2\ell(\text{modèle complet}) - 2\ell(\text{modèle réduit}) \sim \chi^2_{k_d} \quad \text{(à } k_d \text{ degrés de liberté)}
+\]</span></p>
+<p><span class="math display">\[
+k_d = (k_{\text{complet}} - k_{\text{réduit}})
+\quad \text{où } k_i \text{ représente le nombre de paramètres dans un modèle } i.
+\]</span></p>
+<p><span class="math display">\[
+k_{\text{complet}} &gt; k_{\text{réduit}}
+\]</span></p></li>
+</ul>
+</section>
+<section id="modèle-1-cas-dune-variable-explicative-qualitative-sexe" class="level3" data-number="0.11">
+<h3 data-number="0.11" class="anchored" data-anchor-id="modèle-1-cas-dune-variable-explicative-qualitative-sexe"><span class="header-section-number">0.11</span> Modèle 1: cas d’une variable explicative qualitative « Sexe »</h3>
+<p><span class="math display">\[
+\log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 \times \text{Sexe}
+\]</span></p>
+<p>Ajustons un modèle de régression logistique en utilisant uniquement la variable explicative Sexe</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajuster une régression logistique sans variable explicative (modèle avec constante uniquement)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>modele_simple <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> telecom, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajuster une régression logistique avec 'Sexe' comme seule variable explicative</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>modele_sexe <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> Sexe, <span class="at">data =</span> telecom, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Résumé des deux modèles</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_simple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ 1, family = binomial(link = "logit"), data = telecom)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -0.76608    0.09817  -7.804 6.01e-15 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 598.6  on 478  degrees of freedom
+Residual deviance: 598.6  on 478  degrees of freedom
+AIC: 600.6
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_sexe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ Sexe, family = binomial(link = "logit"), data = telecom)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -0.8706     0.1292  -6.738  1.6e-11 ***
+Sexe1         0.2550     0.1992   1.280    0.201    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 598.60  on 478  degrees of freedom
+Residual deviance: 596.96  on 477  degrees of freedom
+AIC: 600.96
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<section id="test-du-rapport-de-vraisemblance" class="level4" data-number="0.11.1">
+<h4 data-number="0.11.1" class="anchored" data-anchor-id="test-du-rapport-de-vraisemblance"><span class="header-section-number">0.11.1</span> Test du rapport de vraisemblance</h4>
+<p>H₀ : aucune amélioration d’ajustement suite à l’ajout de la variable Sexe</p>
+<p>H₁ : la variable sexe contribue à l’amélioration de l’ajustement du modèle</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test du rapport de vraisemblance entre les deux modèles</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modele_simple, modele_sexe, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model 1: y ~ 1
+Model 2: y ~ Sexe
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+1       478     598.60                     
+2       477     596.96  1   1.6328   0.2013</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Résumé du modèle avec la variable Sexe</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_sexe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ Sexe, family = binomial(link = "logit"), data = telecom)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -0.8706     0.1292  -6.738  1.6e-11 ***
+Sexe1         0.2550     0.1992   1.280    0.201    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 598.60  on 478  degrees of freedom
+Residual deviance: 596.96  on 477  degrees of freedom
+AIC: 600.96
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Différence (ratio de vraisemblance)} &amp;= [-2LL(\text{modèle réduit}) - (-2LL(\text{modèle complet}))] \\
+&amp;= 2LL(\text{modèle complet}) - 2LL(\text{modèle réduit}) \\
+&amp;\sim \chi^2_{k_d} \quad \text{où } k_d = k_{\text{complet}} - k_{\text{réduit}}, \\
+&amp;\text{et } k_i \text{ représente le nombre de paramètres dans un modèle } i. \\
+&amp;\text{(avec } k_{\text{complet}} &gt; k_{\text{réduit}} \text{)}
+\end{aligned}
+\]</span></p>
+<p>P=value = 0.201&gt;5% donc au seuil 5%, on ne rejette pas H₀. l’ajout de la variable sexe n’améliore pas l’ajustement du modèle réduit.</p>
+</section>
+<section id="la-pseudo-performance-du-modèle" class="level4" data-number="0.11.2">
+<h4 data-number="0.11.2" class="anchored" data-anchor-id="la-pseudo-performance-du-modèle"><span class="header-section-number">0.11.2</span> La pseudo-performance du modèle</h4>
+<p>En régression logistique, nous n’avons pas de mesure de performance équivalente au coefficient de détermination R² de la régression linéaire.</p>
+<p>Néanmoins, les valeurs de Cox&amp; Snell R Square et Nagelkerke R Square donnent approximativement une indication sur la portion de la variation observée dans Y qui est expliquée par le modèle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger la librairie pscl </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pscl)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des pseudo R² </span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pR2</span>(modele_sexe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>fitting null model for pseudo-r2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          llh       llhNull            G2      McFadden          r2ML 
+-2.984814e+02 -2.992978e+02  1.632837e+00  2.727779e-03  3.403041e-03 
+         r2CU 
+ 4.770154e-03 </code></pre>
+</div>
+</div>
+<p>Les indices de Cox et Snell (0,003) et de Nagelkerke (0,005) indiquent que le modèle 1 explique entre 0,3 % et 0,5 % de la variabilité observée.</p>
+</section>
+<section id="test-dhypothèse-pour-un-paramètre" class="level4" data-number="0.11.3">
+<h4 data-number="0.11.3" class="anchored" data-anchor-id="test-dhypothèse-pour-un-paramètre"><span class="header-section-number">0.11.3</span> Test d’hypothèse pour un paramètre</h4>
+<ul>
+<li><p><span class="math display">\[
+\begin{aligned}
+&amp;H_0: \beta_{\text{constante}} = 0 \\
+&amp;H_1: \beta_{\text{constante}} \neq 0
+\end{aligned}
+\]</span></p>
+<p>P-value &lt; 0.05. Au niveau 5%, on rejette H₀. la constante est statistiquement significative.</p></li>
+<li><p><span class="math display">\[
+\begin{aligned}
+&amp;H_0: \beta_{\text{sexe}} = 0 \\
+&amp;H_1: \beta_{\text{sexe}} \neq 0
+\end{aligned}
+\]</span></p>
+<p>P-value=0.201 &gt; 0.05 (même p-value page 20). Au niveau 5%, on ne rejette pas H₀. la variable n’est pas statistiquement significative</p></li>
+</ul>
+<p>Les p-value de ces tests sont données dans ce tableau.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats détaillés du modèle avec la variable Sexe</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_sexe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ Sexe, family = binomial(link = "logit"), data = telecom)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -0.8706     0.1292  -6.738  1.6e-11 ***
+Sexe1         0.2550     0.1992   1.280    0.201    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 598.60  on 478  degrees of freedom
+Residual deviance: 596.96  on 477  degrees of freedom
+AIC: 600.96
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>R fournit une estimation du paramètre 𝛽𝑠𝑒𝑥𝑒 = 0.255.</p>
+<p>Rappel: Modèle ajusté: <span class="math display">\[
+\hat{p}(Y) = \frac{1}{1 + e^{-(-0.871 + 0.255 \cdot Sexe)}}
+\]</span></p>
+</section>
+<section id="doù-vient-le-odds-ratio-rapport-de-cote" class="level4" data-number="0.11.4">
+<h4 data-number="0.11.4" class="anchored" data-anchor-id="doù-vient-le-odds-ratio-rapport-de-cote"><span class="header-section-number">0.11.4</span> D’où vient le odds ratio (rapport de cote)?</h4>
+<p>Rappel: Modèle ajusté: <span class="math display">\[
+\hat{p}(Y) = \frac{1}{1 + e^{-(-0.871 + 0.255 \cdot Sexe)}}
+\]</span></p>
+<p><strong>Calcul du rapport de cote (odds ratio) (à titre indicatif seulement)</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Tableau des Probabilités et Rapport de Cotes</caption>
+<colgroup>
+<col style="width: 29%">
+<col style="width: 32%">
+<col style="width: 27%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Sexe</th>
+<th style="text-align: center;">Probabilité.de.ne.pas.renouveler.le.contrat</th>
+<th style="text-align: center;">Probabilité.de.renouveler.le.contrat</th>
+<th style="text-align: center;">Odds..Cote.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Femme</td>
+<td style="text-align: center;">P(Y=1 | sexe=1)</td>
+<td style="text-align: center;">P(Y=0 | sexe=1)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Homme</td>
+<td style="text-align: center;">P(Y=1 | sexe=0)</td>
+<td style="text-align: center;">P(Y=0 | sexe=0)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Rapport de cote d’une Femme vs un Homme</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">1.29046162</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="math display">\[
+\textbf{Exemple de calcul:} \quad P(Y=1 | sexe=1) = \frac{1}{1 + e^{-(-0.871 + 0.255 \cdot 1)}}
+\quad \text{et} \quad P(Y=0 | sexe=1) = 1 - P(Y=1 | sexe=1)
+\]</span></p>
+<p><span class="math display">\[
+\textbf{Cote (pour femme)} = \frac{P(Y=1 | sexe = 1)}{P(Y=0 | sexe = 1)} = \frac{0.3507}{0.6493} = 0.5401
+\]</span></p>
+<p><span class="math display">\[
+\textbf{Rapport de cote} = \frac{\text{cote femme}}{\text{cote homme}} = \frac{0.54}{0.41} = 1.29
+\]</span></p>
+</section>
+<section id="interprétation-du-paramètre-de-la-variable-sexe" class="level4" data-number="0.11.5">
+<h4 data-number="0.11.5" class="anchored" data-anchor-id="interprétation-du-paramètre-de-la-variable-sexe"><span class="header-section-number">0.11.5</span> Interprétation du paramètre de la variable Sexe</h4>
+<p><span class="math display">\[
+\text{Odds Ratio} = \frac{\text{odds après une augmentation d'une unité de la variable explicative}}{\text{odds de base}} = e^{\beta}
+\]</span></p>
+<p><strong>Interprétation</strong></p>
+<ul>
+<li><p>le risque d’interrompre le contrat est 1.29 fois plus élevé chez les femmes que chez les hommes. La cote des femmes est 1.29 *cote des hommes.</p></li>
+<li><p>Le risque de non renouvellement est multiplié par 1.29 s’il s’agit d’une femme, ou bien, le risque de non renouvellement est augmenté de 29% s’il s’agit d’une femme.</p></li>
+</ul>
+<pre><code>Mais attention ce paramètre est statistiquement non significatif!</code></pre>
+<ol type="1">
+<li><p><em>Si le rapport de cote (odds ratio) = 1</em>; le fait d’interrompre le contrat est indépendant du sexe.</p></li>
+<li><p><em>Si le rapport de cote(odds ratio) &gt;1</em>; le non renouvellement du contrat est plus fréquent chez les femmes (𝛽𝑠𝑒𝑥𝑒 &gt; 0).Il y a une association positive entre X et P(y=1).</p></li>
+<li><p><em>Si le rapport de cote (odds ratio) &lt;1</em>; le non renouvellement du contrat est plus fréquent chez les hommes(𝛽𝑠𝑒𝑥𝑒 &lt; 0).Il y a une association négative entre X et P(y=1).</p></li>
+</ol>
+<p><strong>Intervalle de confiance</strong></p>
+<p>IC (95%) : [0.873; 1.907] : 1 est une possibilité de l’intervalle ( on ne rejette pas H₀). La variable sexe ne contribue pas à expliquer significativement la probabilité de non renouvellement</p>
+</section>
+</section>
+<section id="modèle-2-cas-dune-variable-explicative-quantitative-minutes" class="level3" data-number="0.12">
+<h3 data-number="0.12" class="anchored" data-anchor-id="modèle-2-cas-dune-variable-explicative-quantitative-minutes"><span class="header-section-number">0.12</span> Modèle 2: Cas d’une variable explicative quantitative «Minutes»</h3>
+<p><span class="math display">\[
+\log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 \times \text{Minutes}
+\]</span></p>
+<p>Ajustons un modèle de régression logistique en utilisant uniquement « Minutes » comme variable explicative</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajuster une régression logistique avec 'Minutes' comme variable explicative</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>modele_minutes <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> Minutes, <span class="at">data =</span> telecom, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résumé du modèle</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_minutes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ Minutes, family = binomial(link = "logit"), 
+    data = telecom)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -1.471251   0.223351  -6.587 4.48e-11 ***
+Minutes      0.002278   0.000626   3.639 0.000274 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 598.60  on 478  degrees of freedom
+Residual deviance: 585.13  on 477  degrees of freedom
+AIC: 589.13
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Effectuer le test du rapport de vraisemblance entre le modèle sans variable et le modèle avec 'Minutes'</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modele_simple, modele_minutes, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model 1: y ~ 1
+Model 2: y ~ Minutes
+  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+1       478     598.60                          
+2       477     585.13  1   13.464 0.0002432 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul les pseudo R²</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pR2</span>(modele_minutes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>fitting null model for pseudo-r2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          llh       llhNull            G2      McFadden          r2ML 
+-292.56579914 -299.29777111   13.46394393    0.02249256    0.02771708 
+         r2CU 
+   0.03885193 </code></pre>
+</div>
+</div>
+<p>H₀: 𝛽ₘᵢₙᵤₜₑₛ= 0 vs H₁: 𝛽ₘᵢₙᵤₜₑₛ ≠ 0</p>
+<p>P-value=0.00 on rejette H₀. La variable « Minutes » contribue à expliquer la probabilité d’occurrence de l’événement.</p>
+<section id="interprétation-du-coefficient-estimé-de-la-variable-minutes" class="level4" data-number="0.12.1">
+<h4 data-number="0.12.1" class="anchored" data-anchor-id="interprétation-du-coefficient-estimé-de-la-variable-minutes"><span class="header-section-number">0.12.1</span> Interprétation du coefficient estimé de la variable «Minutes»</h4>
+<p><strong>Interprétation</strong></p>
+<ul>
+<li><p>𝛽ₘᵢₙᵤₜₑₛ = 𝟎. 𝟎𝟎𝟐; p-value &lt;5%; il y a donc une association positive et significative entre le nombre moyen de minutes d’utilisation du téléphone en un mois et la probabilité de quitter.</p></li>
+<li><p>Lorsque le nombre moyen de minutes par mois augmente de 1, le rapport de cote (odds ratio) est multipliée par e⁰.⁰⁰²=1.002</p></li>
+<li><p>Lorsque le nombre moyen de minutes par mois augmente de 1, le rapport de cote augmente de 0.2% (1.002-1).</p></li>
+<li><p>Si le nombre moyen de minutes par mois augmente de 1, le risque de ne pas renouveler le contrat augmente.</p>
+<p><strong>Intervalle de confiance (95%)</strong></p>
+<p>On estime au niveau de confiance 95% que le vrai rapport de cote dans la population se situe entre 1.001 et 1.004.</p></li>
+</ul>
+</section>
+<section id="test-dajustement-du-modèle" class="level4" data-number="0.12.2">
+<h4 data-number="0.12.2" class="anchored" data-anchor-id="test-dajustement-du-modèle"><span class="header-section-number">0.12.2</span> Test d’ajustement du modèle</h4>
+<p>Le test permet de tester l’ajustement du modèle aux données de l’échantillon. Hosmer-Lemeshow Goodness of Fit</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("ResourceSelection")  </span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger la bibliothèque pour le test de Hosmer-Lemeshow</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ResourceSelection)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Hosmer-Lemeshow pour évaluer la qualité de l’ajustement du modèle </span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hoslem.test</span>(modele_minutes<span class="sc">$</span>y, <span class="fu">fitted</span>(modele_minutes), <span class="at">g =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Hosmer and Lemeshow goodness of fit (GOF) test
+
+data:  modele_minutes$y, fitted(modele_minutes)
+X-squared = 32.084, df = 8, p-value = 8.997e-05</code></pre>
+</div>
+</div>
+<p>Les hypothèses du test de Hosmer-Lemeshow Goodness of Fit sont les suivantes:</p>
+<p>H₀: 𝐿𝑒 𝑚𝑜𝑑è𝑙𝑒 𝑎𝑗𝑢𝑠𝑡𝑒 𝑏𝑖𝑒𝑛 𝑙𝑒𝑠 𝑑𝑜𝑛𝑛é𝑒𝑠 vs.&nbsp;H₁: 𝑙𝑒 𝑚𝑜𝑑è𝑙𝑒 𝑛′𝑎𝑗𝑢𝑠𝑡𝑒 𝑝𝑎𝑠 𝑏𝑖𝑒𝑛 𝑙𝑒𝑠 𝑑𝑜𝑛𝑛é𝑒𝑠</p>
+<ul>
+<li><p>Si H₀ est vraie, la statistique HL (Hosmer-Lemshow) suit une Khi-deux à 8 degrés de liberté.</p></li>
+<li><p>Comme la P-value=0 dans ce cas (Modèle avec Minutes seulement), on rejette H₀. Il n’y a donc pas assez d’évidence pour affirmer que le modèle ajuste bien les données.</p></li>
+<li><p>Si le modèle n’est pas bon, on doit chercher à l’améliorer (exemple: rajouter d’autres variables au modèle).</p></li>
+</ul>
+</section>
+<section id="lidée-du-test-dajustement-hosmer-lemeshow-à-titre-indicatif" class="level4" data-number="0.12.3">
+<h4 data-number="0.12.3" class="anchored" data-anchor-id="lidée-du-test-dajustement-hosmer-lemeshow-à-titre-indicatif"><span class="header-section-number">0.12.3</span> L’idée du test d’ajustement Hosmer-Lemeshow (à titre indicatif)</h4>
+<ol type="1">
+<li><p>Classer par ordre croissant les probabilités estimées.</p></li>
+<li><p>Diviser l’échantillon en 10 groupes de tailles approximativement égales.</p></li>
+<li><p>Calculer la somme des probabilités observées et celles estimées pour chaque groupe.</p></li>
+<li><p>Calculer la statistique:</p>
+<p><span class="math display">\[
+\text{Khi-deux du test HL} = \sum_{i=1}^{10} \frac{n_i \cdot (\text{prob observée}_i - \text{prob estimée}_i)^2}{\text{prob estimée}_i \cdot (n_i - \text{prob estimée}_i)}
+\]</span></p>
+<p><span class="math display">\[
+HL = \frac{48 \times (5 - 10.425)^2}{10.425 \times (48 - 10.425)} + \dots + \frac{44 \times (26 - 19.753)^2}{19.753 \times (44 - 19.753)} = 29.107
+\]</span></p></li>
+</ol>
+</section>
+</section>
+<section id="modèle-3-modèle-avec-toutes-les-variables-explicatives" class="level3" data-number="0.13">
+<h3 data-number="0.13" class="anchored" data-anchor-id="modèle-3-modèle-avec-toutes-les-variables-explicatives"><span class="header-section-number">0.13</span> Modèle 3 : modèle avec toutes les variables explicatives</h3>
+<ul>
+<li><p>Forfait 1: catégorie de référence.</p></li>
+<li><p>Revenu 1: catégorie de référence ((0$,20000$).</p></li>
+<li><p>Homme: catégorie de référence.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajuster une régression logistique avec toutes les variables explicatives</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>modele_complet <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> Sexe <span class="sc">+</span> Age <span class="sc">+</span> Revenu <span class="sc">+</span> Minutes <span class="sc">+</span> Facture <span class="sc">+</span> Forfait, <span class="at">data =</span> telecom, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résumé du modèle complet</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_complet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ Sexe + Age + Revenu + Minutes + Facture + Forfait, 
+    family = binomial(link = "logit"), data = telecom)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -1.501746   0.555174  -2.705  0.00683 ** 
+Sexe1        0.278993   0.217839   1.281  0.20029    
+Age         -0.030816   0.007375  -4.178 2.94e-05 ***
+Revenu2      0.167588   0.310278   0.540  0.58911    
+Revenu3     -0.487214   0.302354  -1.611  0.10709    
+Revenu4     -0.134965   0.294320  -0.459  0.64655    
+Minutes      0.011656   0.001887   6.175 6.60e-10 ***
+Facture      0.012187   0.007244   1.682  0.09248 .  
+Forfait2    -1.495148   0.340324  -4.393 1.12e-05 ***
+Forfait3    -4.376304   0.758593  -5.769 7.98e-09 ***
+Forfait4    -4.237469   0.822642  -5.151 2.59e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 598.60  on 478  degrees of freedom
+Residual deviance: 522.51  on 468  degrees of freedom
+AIC: 544.51
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test du rapport de vraisemblance entre le modèle simple et le modèle complet</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modele_simple, modele_complet, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model 1: y ~ 1
+Model 2: y ~ Sexe + Age + Revenu + Minutes + Facture + Forfait
+  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+1       478     598.60                          
+2       468     522.51 10   76.081 2.929e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des pseudo R²</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pR2</span>(modele_complet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>fitting null model for pseudo-r2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         llh      llhNull           G2     McFadden         r2ML         r2CU 
+-261.2571549 -299.2977711   76.0812325    0.1270996    0.1468616    0.2058607 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Hosmer-Lemeshow pour évaluer l’ajustement du modèle complet</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hoslem.test</span>(modele_complet<span class="sc">$</span>y, <span class="fu">fitted</span>(modele_complet), <span class="at">g =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Hosmer and Lemeshow goodness of fit (GOF) test
+
+data:  modele_complet$y, fitted(modele_complet)
+X-squared = 11.115, df = 8, p-value = 0.1953</code></pre>
+</div>
+</div>
+<ul>
+<li><p><strong>Test de rapport de vraisemblance</strong>: p-value = 0&lt;5%, Ce modèle est significatif pour expliquer Y.</p></li>
+<li><p><strong>pseudo-performance</strong>: Le modèle explique entre 14.7% à 20.6% de la variabilité observée.</p></li>
+<li><p><strong>Hosmer-Lemeshow</strong>: p-value=0.2 &gt; 5%; on ne rejette pas H0. Il n’y a pas assez d’évidence pour affirmer que le modèle n’ajuste pas bien les données.</p></li>
+</ul>
+<section id="interprétation-des-coefficients-estimés" class="level4" data-number="0.13.1">
+<h4 data-number="0.13.1" class="anchored" data-anchor-id="interprétation-des-coefficients-estimés"><span class="header-section-number">0.13.1</span> Interprétation des coefficients estimés</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résumé détaillé du modèle complet</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modele_complet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ Sexe + Age + Revenu + Minutes + Facture + Forfait, 
+    family = binomial(link = "logit"), data = telecom)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -1.501746   0.555174  -2.705  0.00683 ** 
+Sexe1        0.278993   0.217839   1.281  0.20029    
+Age         -0.030816   0.007375  -4.178 2.94e-05 ***
+Revenu2      0.167588   0.310278   0.540  0.58911    
+Revenu3     -0.487214   0.302354  -1.611  0.10709    
+Revenu4     -0.134965   0.294320  -0.459  0.64655    
+Minutes      0.011656   0.001887   6.175 6.60e-10 ***
+Facture      0.012187   0.007244   1.682  0.09248 .  
+Forfait2    -1.495148   0.340324  -4.393 1.12e-05 ***
+Forfait3    -4.376304   0.758593  -5.769 7.98e-09 ***
+Forfait4    -4.237469   0.822642  -5.151 2.59e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 598.60  on 478  degrees of freedom
+Residual deviance: 522.51  on 468  degrees of freedom
+AIC: 544.51
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Chaque coefficient estimé représente l’effet de la variable correspondante sur le Logit (y) une fois que les autres variables sont dans le modèle.</p></li>
+<li><p>Âge (béta = -0.031): selon le modèle ajusté, pour chaque augmentation d’une année de l’âge, le rapport de côte (odds ratio) est multiplié par 0.970 (exp(-0.031)) toutes choses étant égales par ailleurs.</p></li>
+<li><p>Alternativement: pour chaque augmentation de 1 an de l’âge, le rapport de côte diminue de 3% (1-0.970) TCEÉPA.</p></li>
+<li><p>Minutes (béta =0.012): selon le modèle ajusté, si le nombre moyen de minutes par mois augmente de 1, le rapport de côte est multiplié par 1.012 TCEÉPA.</p></li>
+<li><p>Alternativement: pour chaque augmentation de 1 du nombre de minutes moyen par mois, le rapport de côte augmente de 1.2% (1.012 -1) TCÉEPA.</p></li>
+<li><p>La variable Revenu (introduite par le biais de 3 variables indicatrices) est non significative en présence de toutes les autres variables dans le modèle.</p></li>
+<li><p>La variable Forfait est significative en présence de toutes les autres variables dans le modèle.</p></li>
+<li><p><strong>Forfait (1) (bêta=-1,495) :</strong></p>
+<p>Si tout demeure constant, on estime que les clients qui utilisent le forfait 2 voient leur rapport de côte multiplié par 0.224 (=exp(-1.495)) par rapport à ceux qui utilisent le forfait 1 (référence).</p></li>
+</ul>
+</section>
+</section>
+<section id="table-de-classification" class="level3" data-number="0.14">
+<h3 data-number="0.14" class="anchored" data-anchor-id="table-de-classification"><span class="header-section-number">0.14</span> Table de classification</h3>
+<ul>
+<li><p>La table de classification renseigne sur la capacité du modèle à prédire correctement un état (le client quitte/ le client ne quitte pas). (le point de coupure choisi=0.5 )</p></li>
+<li><p>La table nous permet de calculer le taux de bonne classification.</p></li>
+</ul>
+<p>▪ <strong>Le taux de bonne classification</strong>= 𝑁𝑜𝑚𝑏𝑟𝑒 𝑑′𝑜𝑏𝑠𝑒𝑟𝑣𝑎𝑡𝑖𝑜𝑛𝑠 𝑏𝑖𝑒𝑛 𝑐𝑙𝑎𝑠𝑠é𝑠 / 𝑡𝑜𝑡𝑎𝑙 = 287+54 /479 = 71.2%</p>
+<p>▪ <strong>Le taux de mauvaise classification</strong>= (1- taux de bonne classification)= 100% -71.2%= 28.8%</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Générer les probabilités prédictives à partir du modèle complet</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>telecom<span class="sc">$</span>proba <span class="ot">&lt;-</span> <span class="fu">predict</span>(modele_complet, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Générer les prédictions binaires (0 ou 1) avec un seuil de 0.5</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>telecom<span class="sc">$</span>prediction <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(telecom<span class="sc">$</span>proba <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer une table de classification</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>table_classification <span class="ot">&lt;-</span> <span class="fu">table</span>(telecom<span class="sc">$</span>y, telecom<span class="sc">$</span>prediction)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>table_classification</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   
+      0   1
+  0 287  40
+  1  98  54</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul de la spécificité et de la sensibilité</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>Specificite <span class="ot">&lt;-</span> <span class="dv">54</span> <span class="sc">/</span> (<span class="dv">54</span> <span class="sc">+</span> <span class="dv">98</span>) <span class="sc">*</span> <span class="dv">100</span>  <span class="co"># Vrai négatif / (VN + FP)</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>Sensibilite <span class="ot">&lt;-</span> <span class="dv">287</span> <span class="sc">/</span> (<span class="dv">287</span> <span class="sc">+</span> <span class="dv">40</span>) <span class="sc">*</span> <span class="dv">100</span>  <span class="co"># Vrai positif / (VP + FN)</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>Specificite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35.52632</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>Sensibilite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 87.76758</code></pre>
+</div>
+</div>
+<p>La proportion de vrais négatifs, appelée spécificité, est de 87.8%,</p>
+<p>La proportion de vrais positifs, appelée sensibilité, est de 35.5%.</p>
+</section>
+<section id="mise-en-situation-2" class="level3" data-number="0.15">
+<h3 data-number="0.15" class="anchored" data-anchor-id="mise-en-situation-2"><span class="header-section-number">0.15</span> Mise en situation 2</h3>
+<p>Sur la base du fichier de données « faillite.csv », on se propose d’analyser, au moyen d’une régression logistique, la faillite et survie de firmes en fonction de quatre ratios financiers.</p>
+<p><strong>Variables</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger le package knitr pour afficher le tableau joliment</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un data frame avec les variables et leurs descriptions</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nom_Variable =</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"X1"</span>, <span class="st">"X2"</span>, <span class="st">"X3"</span>, <span class="st">"X4"</span>),</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Description =</span> <span class="fu">c</span>(</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"1 si faillite, 0 si survie"</span>,</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Flux de trésorerie / Dette totale"</span>,</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Résultat net / Actif"</span>,</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Actif à court terme / Dette à court terme"</span>,</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Actif à court terme / Ventes"</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau sous forme Markdown (format "pipe")</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(variables, <span class="at">format =</span> <span class="st">"pipe"</span>, <span class="at">align =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Nom_Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Y</td>
+<td style="text-align: left;">1 si faillite, 0 si survie</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X1</td>
+<td style="text-align: left;">Flux de trésorerie / Dette totale</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X2</td>
+<td style="text-align: left;">Résultat net / Actif</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X3</td>
+<td style="text-align: left;">Actif à court terme / Dette à court terme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X4</td>
+<td style="text-align: left;">Actif à court terme / Ventes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/Fatou/OneDrive - HEC Montréal/PROJET SUPERVISE/Data"</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>faillite<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"faillite.csv"</span>,<span class="at">sep=</span><span class="st">";"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="questions" class="level4" data-number="0.15.1">
+<h4 data-number="0.15.1" class="anchored" data-anchor-id="questions"><span class="header-section-number">0.15.1</span> Questions</h4>
+<ol type="1">
+<li><p>Ajustez un modèle de régression logistique simple de Y sur chaque variable explicative. Quelle est l’estimation de l’équation de la régression logistique obtenue? Interprétez les estimations obtenues en termes de « Odds ratio ». Ordonnez la performance de ces 4 modèles.</p></li>
+<li><p>Effectuez une régression logistique de Y sur tous les ratios financiers 𝑿ⱼ (modèle 1) Quelle est l’estimation de l’équation de la régression logistique obtenue? Interprétez les estimations obtenues en termes de « Odds ratio ».</p></li>
+<li><p>Identifiez les variables significatives dans le modèle 1. Comparez avec les résultats en 1).</p></li>
+<li><p>En utilisant un niveau de 5%, est-ce que la régression est globalement significative dans le modèle 1?</p></li>
+<li><p>Avez-vous des réticences par rapport à l’une ou l’autre de vos interprétations du modèle 1? Si oui, expliquez ce phénomène.</p></li>
+<li><p>Quelle proportion de la variation de la variable Y est expliquée par le modèle 1?</p></li>
+<li><p>Que pouvez-vous dire sur l’ajustement du modèle 1?</p></li>
+<li><p>Que pouvez-vous dire sur le pouvoir de discrimination du modèle 1?</p></li>
+<li><p>Effectuez une procédure de sélection de variables pour obtenir le meilleur modèle de régression logistique.</p></li>
+<li><p>Discutez le pouvoir discriminant du modèle retenu à la question précédente à l’aide de la table de classification</p></li>
+</ol>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
