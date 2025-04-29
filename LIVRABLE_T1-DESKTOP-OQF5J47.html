@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Rappel et introduction à R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/clipboard/clipboard.min.js"></script>
+<script src="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/quarto-html/quarto.js"></script>
+<script src="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/quarto-html/popper.min.js"></script>
+<script src="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/quarto-html/anchor.min.js"></script>
+<link href="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="LIVRABLE_T1-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="LIVRABLE_T1_files/styles.css">
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#le-vocabulaire-statistique" id="toc-le-vocabulaire-statistique" class="nav-link active" data-scroll-target="#le-vocabulaire-statistique"><span class="header-section-number">0.1</span> Le vocabulaire statistique</a></li>
+  <li><a href="#mise-en-contexte" id="toc-mise-en-contexte" class="nav-link" data-scroll-target="#mise-en-contexte"><span class="header-section-number">0.2</span> Mise en contexte</a></li>
+  <li><a href="#statistiques-descriptives" id="toc-statistiques-descriptives" class="nav-link" data-scroll-target="#statistiques-descriptives"><span class="header-section-number">0.3</span> Statistiques descriptives</a></li>
+  <li><a href="#inférence-statistique-estimation-et-tests-dhypothèsess" id="toc-inférence-statistique-estimation-et-tests-dhypothèsess" class="nav-link" data-scroll-target="#inférence-statistique-estimation-et-tests-dhypothèsess"><span class="header-section-number">0.4</span> Inférence statistique: estimation et tests d’hypothèsess</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation"><span class="header-section-number">0.5</span> Estimation</a></li>
+  <li><a href="#estimé-ponctuel" id="toc-estimé-ponctuel" class="nav-link" data-scroll-target="#estimé-ponctuel"><span class="header-section-number">0.6</span> Estimé ponctuel</a></li>
+  <li><a href="#intervalle-de-confiance" id="toc-intervalle-de-confiance" class="nav-link" data-scroll-target="#intervalle-de-confiance"><span class="header-section-number">0.7</span> Intervalle de confiance</a></li>
+  <li><a href="#intervalle-de-confiance-pour-la-moyenne" id="toc-intervalle-de-confiance-pour-la-moyenne" class="nav-link" data-scroll-target="#intervalle-de-confiance-pour-la-moyenne"><span class="header-section-number">0.8</span> Intervalle de confiance pour la moyenne</a></li>
+  <li><a href="#intervalle-de-confiance-pour-la-proportion" id="toc-intervalle-de-confiance-pour-la-proportion" class="nav-link" data-scroll-target="#intervalle-de-confiance-pour-la-proportion"><span class="header-section-number">0.9</span> Intervalle de confiance pour la proportion</a></li>
+  <li><a href="#tests-dhypothèse" id="toc-tests-dhypothèse" class="nav-link" data-scroll-target="#tests-dhypothèse"><span class="header-section-number">0.10</span> Tests d’hypothèse</a></li>
+  <li><a href="#principe-du-test-dhypothèse" id="toc-principe-du-test-dhypothèse" class="nav-link" data-scroll-target="#principe-du-test-dhypothèse"><span class="header-section-number">0.11</span> Principe du test d’hypothèse</a></li>
+  <li><a href="#règle-de-décision-basée-sur-le-seuil-expérimental-valeur-p" id="toc-règle-de-décision-basée-sur-le-seuil-expérimental-valeur-p" class="nav-link" data-scroll-target="#règle-de-décision-basée-sur-le-seuil-expérimental-valeur-p"><span class="header-section-number">0.12</span> Règle de décision basée sur le seuil expérimental (valeur-p)</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Rappel et introduction à R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="le-vocabulaire-statistique" class="level3" data-number="0.1">
+<h3 data-number="0.1" class="anchored" data-anchor-id="le-vocabulaire-statistique"><span class="header-section-number">0.1</span> Le vocabulaire statistique</h3>
+<p><strong>Individu (ou unité statistique) :</strong></p>
+<p>Élément de base de toute analyse statistique. Ces éléments doivent être distincts mais de même nature (personnes, objets, etc…).</p>
+<p><strong>Population:</strong></p>
+<p>L’ensemble des individus sur lequel portent les conclusions de l’étude.</p>
+<p><strong>Échantillon:</strong></p>
+<ul>
+<li><p>Sous-ensemble de la population.</p></li>
+<li><p>Pour des raisons économiques, les enquêtes statistiques sont habituellement effectuées sur un échantillon seulement.</p></li>
+<li><p>Diverses méthodes d’échantillonnage….</p></li>
+</ul>
+<p><strong>Variable:</strong></p>
+<ul>
+<li><p>Caractéristique ou propriété que l’on souhaite étudier.</p></li>
+<li><p>Doit être <em>définie et mesurée de la même manière pour chaque individu.</em></p></li>
+<li><p><strong>Types de variables :</strong><br>
+<em>Qualitative nominale</em> (codification numérique arbitraire) : couleur des yeux, ville, région, le sexe…</p></li>
+<li><p><em>Qualitative ordinale</em> (codification arbitraire dont l’ordre a un sens) : niveau de satisfaction (non satisfait, satisfait), niveau d’accord (fortement en accord, en désaccord)…</p></li>
+<li><p><em>Quantitative</em> : âge, la taille, les ventes, les coûts, le nombre d’enfants, le nombre de clients…</p></li>
+</ul>
+</section>
+<section id="mise-en-contexte" class="level3" data-number="0.2">
+<h3 data-number="0.2" class="anchored" data-anchor-id="mise-en-contexte"><span class="header-section-number">0.2</span> Mise en contexte</h3>
+<p>On s’intéresse à mesurer l’intérêt des Montréalais envers le cinéma. On a donc demandé à 100 personnes choisies au hasard à la sortie de cinq salles de cinéma à Montréal :</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 87%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Nom_Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">Âge du répondant en années</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">visite</td>
+<td style="text-align: left;">Nombre de fois où le répondant est allé au cinéma au cours de la dernière année.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sexe</td>
+<td style="text-align: left;">Sexe du répondant (0 = Homme, 1 = Femme).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age_c</td>
+<td style="text-align: left;">Catégorie d’âge : 1 = 14-24 ans, 2 = 25-34 ans, 3 = 35 ans ou plus.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">visite_c</td>
+<td style="text-align: left;">Catégorie de visites : 1 = 5 visites ou moins, 2 = 6-10 visites, 3 = plus de 10 visites.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Les données de l’exemple se trouvent dans le fichier intro.csv</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir le répertoire de travail</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/Fatou/OneDrive - HEC Montréal/PROJET SUPERVISE/Data"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Importer le jeu de donnés</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>info <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"intro.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir les variables en facteurs</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>info<span class="sc">$</span>visite_c <span class="ot">=</span> <span class="fu">factor</span>(info<span class="sc">$</span>visite_c, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>info<span class="sc">$</span>age_c <span class="ot">=</span> <span class="fu">factor</span>(info<span class="sc">$</span>age_c, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>info<span class="sc">$</span>sexe <span class="ot">=</span> <span class="fu">factor</span>(info<span class="sc">$</span>sexe, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="statistiques-descriptives" class="level3" data-number="0.3">
+<h3 data-number="0.3" class="anchored" data-anchor-id="statistiques-descriptives"><span class="header-section-number">0.3</span> Statistiques descriptives</h3>
+<p>Une fois l’échantillon sélectionné, la première étape de toute étude devrait consister à décrire les données observées à l’aide de tableaux, graphiques et de certains indicateurs.</p>
+<pre class="{# Charger les packages nécessaires}"><code>library(kableExtra)
+
+# Créer les données du tableau
+data = data.frame(
+  Variable = c("âge", "age_c", "visite", "visite_c", "sexe"),
+  Type = c("quantitative continue", "ordinale", "quantitative discrète", "ordinale", "nominale"),
+  `Distribution de fréquences ?` = c(
+    "Il faudrait regrouper les données en classes",
+    "oui",
+    "Oui, mais si le nombre de valeurs distinctes est grand, il est préférable de regrouper les données en classes et traiter la variable comme si elle était continue.",
+    "oui",
+    "oui"
+  ),
+  `Représentation graphique` = c(
+    "Histogramme, Diagramme boîte à moustaches (boxplot)",
+    "Diagramme en secteurs (Pie chart), Diagramme en bâtons (Bar chart)",
+    "Diagramme en bâtons, Diagramme boîte à moustaches (boxplot)",
+    "Diagramme en secteurs (Pie charts), Diagramme en bâtons (Bar charts)",
+    "Diagramme en secteurs (Pie charts), Diagramme en bâtons (Bar charts)"
+  ),
+  Indicateurs = c(
+    "Tous : moyenne (mean), médiane (median), écart type (standard deviation), Quartiles (quartiles), centiles (percentiles)",
+    "Dénombrement et proportion ou pourcentage seulement",
+    "Tous (moyenne, médiane, écart type, quartiles, centiles...)",
+    "Dénombrement et proportion seulement",
+    "Dénombrement et proportion seulement"
+  )
+)
+
+# Style du tableau
+kable(data, format = "html", align = "c") %&gt;%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed", "responsive")) %&gt;%
+  column_spec(1, bold = TRUE) %&gt;%
+  column_spec(2, italic = TRUE) %&gt;%
+  row_spec(0, bold = TRUE, background = "#DCE6F1")  
+
+</code></pre>
+<section id="description-de-la-distribution-de-lâge_c" class="level4" data-number="0.3.1">
+<h4 data-number="0.3.1" class="anchored" data-anchor-id="description-de-la-distribution-de-lâge_c"><span class="header-section-number">0.3.1</span> Description de la distribution de l’âge_c</h4>
+<p>Distribution de fréquence</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer la fréquence de chaque catégorie d'âge</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ageC_freq <span class="ot">=</span> <span class="fu">table</span>(info<span class="sc">$</span>age_c)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir les valeurs numériques</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ageC_freq_numeric <span class="ot">=</span> <span class="fu">as.numeric</span>(ageC_freq)  </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer le pourcentage de chaque catégorie</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ageC_pourcentage <span class="ot">=</span> (ageC_freq_numeric <span class="sc">/</span> <span class="fu">sum</span>(ageC_freq_numeric)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer le % cumulé</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>pourcentage_cumul <span class="ot">=</span> <span class="fu">cumsum</span>(ageC_pourcentage)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un dataframe</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>ageC_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  Catégorie <span class="ot">=</span> <span class="fu">names</span>(ageC_freq),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  Fréquence <span class="ot">=</span> ageC_freq_numeric,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pourcentage =</span> <span class="fu">round</span>(ageC_pourcentage, <span class="dv">1</span>),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Pourcentage cumulé</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(pourcentage_cumul, <span class="dv">1</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résultat</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ageC_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Catégorie Fréquence Pourcentage Pourcentage.cumulé
+1         1        31          31                 31
+2         2        38          38                 69
+3         3        31          31                100</code></pre>
+</div>
+</div>
+<p>Diagramme en secteurs</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger la bibliothèque ggplot2 </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un tableau de fréquence pour age_c</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ageC_df <span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(info<span class="sc">$</span>age_c))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ageC_df) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Catégorie"</span>, <span class="st">"Fréquence"</span>)  </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer le diagramme en secteurs</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ageC_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> Fréquence, <span class="at">fill =</span> Catégorie)) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span>  </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="st">"y"</span>, <span class="at">start =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution des âges par catégories"</span>) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="description-de-la-distribution-de-lâge" class="level4" data-number="0.3.2">
+<h4 data-number="0.3.2" class="anchored" data-anchor-id="description-de-la-distribution-de-lâge"><span class="header-section-number">0.3.2</span> Description de la distribution de l’âge</h4>
+<p>Indicateurs</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les statistiques descriptives de la variable age</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(info<span class="sc">$</span>age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  14.00   22.00   29.00   30.28   37.00   61.00 </code></pre>
+</div>
+</div>
+<p>Boxplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un boxplot de la variable age </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(info, <span class="fu">aes</span>(<span class="at">y =</span> age)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot de l'âge"</span>, <span class="at">y =</span> <span class="st">"Âge"</span>) <span class="sc">+</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Histogramme</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un histogramme de la variable age pour visualiser la distribution des fréquences</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(info, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">bins =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogramme de l'âge"</span>, <span class="at">x =</span> <span class="st">"Âge"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>) <span class="sc">+</span>  </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="description-de-la-distribution-du-nombre-de-visites_c" class="level4" data-number="0.3.3">
+<h4 data-number="0.3.3" class="anchored" data-anchor-id="description-de-la-distribution-du-nombre-de-visites_c"><span class="header-section-number">0.3.3</span> Description de la distribution du nombre de visites_c</h4>
+<p>Distribution de fréquence</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un tableau de fréquence pour la variable visite_c avec les effectifs, pourcentages et pourcentages cumulés</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>freq_visitec <span class="ot">=</span> <span class="fu">table</span>(info<span class="sc">$</span>visite_c)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir en data frame</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>freq_visitec <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Visite_c =</span> <span class="fu">names</span>(freq_visitec),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  Fréquence <span class="ot">=</span> <span class="fu">as.vector</span>(freq_visitec)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer les pourcentages</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>freq_visitec<span class="sc">$</span>Pourcentage <span class="ot">=</span> <span class="fu">round</span>((freq_visitec<span class="sc">$</span>Fréquence <span class="sc">/</span> <span class="fu">sum</span>(freq_visitec<span class="sc">$</span>Fréquence)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer le pourcentage cumulé</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>freq_visitec<span class="sc">$</span>Pourcentage_Cumulé <span class="ot">=</span> <span class="fu">cumsum</span>(freq_visitec<span class="sc">$</span>Pourcentage)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résultat</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(freq_visitec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Visite_c Fréquence Pourcentage Pourcentage_Cumulé
+1        1        14          14                 14
+2        2        63          63                 77
+3        3        23          23                100</code></pre>
+</div>
+</div>
+<p>Diagramme à Bâtons</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Renommer les colonnes du tableau de fréquence et créer un diagramme à bâtons pour visualiser la distribution des visites</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(freq_visitec) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Catégorie"</span>, <span class="st">"Fréquence"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer le diagramme à bâtons</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(freq_visitec, <span class="fu">aes</span>(<span class="at">x =</span> Catégorie, <span class="at">y =</span> Fréquence)) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span>  </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution des visites"</span>, <span class="at">x =</span> <span class="st">"Catégories de visites"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="description-de-la-distribution-du-nombre-de-visites" class="level4" data-number="0.3.4">
+<h4 data-number="0.3.4" class="anchored" data-anchor-id="description-de-la-distribution-du-nombre-de-visites"><span class="header-section-number">0.3.4</span> Description de la distribution du nombre de visites</h4>
+<p>Indicateurs</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Statistiques descriptives de la variable visite</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(info<span class="sc">$</span>visite)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00    6.00    9.00    8.97   10.00   25.00 </code></pre>
+</div>
+</div>
+<p>Histogramme</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un histogramme pour visualiser la distribution du nombre de visites</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(info, <span class="fu">aes</span>(<span class="at">x =</span> visite)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogramme des visites"</span>, <span class="at">x =</span> <span class="st">"Nombre de visites"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Boxplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un boxplot pour visualiser la distribution du nombre de visites et détecter les valeurs extrêmes</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(info, <span class="fu">aes</span>(<span class="at">y =</span> visite)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">outlier.color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot des visites"</span>, <span class="at">y =</span> <span class="st">"Nombre de visites"</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="répartition-du-nombre-de-visites-par-sexe" class="level4" data-number="0.3.5">
+<h4 data-number="0.3.5" class="anchored" data-anchor-id="répartition-du-nombre-de-visites-par-sexe"><span class="header-section-number">0.3.5</span> Répartition du nombre de visites par sexe</h4>
+<p>Tableau croisé visite_c*sexe</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un tableau croisé entre visite_c et sexe avec les fréquences et les pourcentages par sexe</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tableau_croise_visite1 <span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(info<span class="sc">$</span>visite_c, info<span class="sc">$</span>sexe))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tableau_croise_visite1) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Visite_c"</span>, <span class="st">"Sexe"</span>, <span class="st">"Frequence"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer les pourcentages par sexe pour chaque catégorie de visite</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>tableau_croise_visite1<span class="sc">$</span>Pourcentage <span class="ot">=</span> <span class="fu">round</span>((tableau_croise_visite1<span class="sc">$</span>Frequence <span class="sc">/</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="fu">ave</span>(tableau_croise_visite1<span class="sc">$</span>Frequence, tableau_croise_visite1<span class="sc">$</span>Sexe, <span class="at">FUN =</span> sum)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau croisé avec fréquences et pourcentages</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tableau_croise_visite1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Visite_c Sexe Frequence Pourcentage
+1        1    0         6       10.17
+2        2    0        35       59.32
+3        3    0        18       30.51
+4        1    1         8       19.51
+5        2    1        28       68.29
+6        3    1         5       12.20</code></pre>
+</div>
+</div>
+<p>Distribution des visites par sexe</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un résumé des statistiques descriptives des visites par sexe</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>summary_visite_sexe <span class="ot">=</span> info <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sexe) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Nombre_Individus =</span> <span class="fu">n</span>(),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moyenne_Visites =</span> <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mediane_Visites =</span> <span class="fu">median</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min_Visites =</span> <span class="fu">min</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max_Visites =</span> <span class="fu">max</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ecart_Type_Visites =</span> <span class="fu">round</span>(<span class="fu">sd</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résultat</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_visite_sexe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  sexe  Nombre_Individus Moyenne_Visites Mediane_Visites Min_Visites Max_Visites
+  &lt;fct&gt;            &lt;int&gt;           &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+1 0                   59            9.83               9           1          25
+2 1                   41            7.73               8           1          19
+# ℹ 1 more variable: Ecart_Type_Visites &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Boxplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un boxplot du nombre de visites selon le sexe pour comparer la distribution et détecter les valeurs extrêmes</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(info, <span class="fu">aes</span>(<span class="at">x =</span> sexe, <span class="at">y =</span> visite, <span class="at">fill =</span> sexe)) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.color =</span> <span class="st">"black"</span>, <span class="at">outlier.shape =</span> <span class="dv">16</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot des visites par sexe"</span>, <span class="at">x =</span> <span class="st">"Sexe"</span>, <span class="at">y =</span> <span class="st">"Nombre de visites"</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="répartition-du-nombre-de-visites-par-âge" class="level4" data-number="0.3.6">
+<h4 data-number="0.3.6" class="anchored" data-anchor-id="répartition-du-nombre-de-visites-par-âge"><span class="header-section-number">0.3.6</span> Répartition du nombre de visites par âge</h4>
+<p>Tableau croisé visites_c *age_c</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un tableau croisé entre visite_c et age_c</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>tableau_croise_visite2 <span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(info<span class="sc">$</span>visite_c, info<span class="sc">$</span>age_c))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tableau_croise_visite2) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Visite_c"</span>, <span class="st">"Age_c"</span>, <span class="st">"Frequence"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer les pourcentages par catégorie d'âge pour visite_c</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>tableau_croise_visite2<span class="sc">$</span>Pourcentage <span class="ot">=</span> <span class="fu">round</span>((tableau_croise_visite2<span class="sc">$</span>Frequence <span class="sc">/</span> </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="fu">ave</span>(tableau_croise_visite2<span class="sc">$</span>Frequence, tableau_croise_visite2<span class="sc">$</span>Age_c, <span class="at">FUN =</span> sum)) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résultat</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tableau_croise_visite2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Visite_c Age_c Frequence Pourcentage
+1        1     1        11       35.48
+2        2     1         6       19.35
+3        3     1        14       45.16
+4        1     2         2        5.26
+5        2     2        32       84.21
+6        3     2         4       10.53
+7        1     3         1        3.23
+8        2     3        25       80.65
+9        3     3         5       16.13</code></pre>
+</div>
+</div>
+<p>Distribution des visites par catégorie d’âge:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistiques descriptives des visites par age</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>summary_visite_agec <span class="ot">=</span> info <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_c) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Nombre_Individus =</span> <span class="fu">n</span>(),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moyenne_Visites =</span> <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mediane_Visites =</span> <span class="fu">median</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min_Visites =</span> <span class="fu">min</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max_Visites =</span> <span class="fu">max</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ecart_Type_Visites =</span> <span class="fu">round</span>(<span class="fu">sd</span>(<span class="fu">as.numeric</span>(visite), <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le résultat</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_visite_agec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  age_c Nombre_Individus Moyenne_Visites Mediane_Visites Min_Visites Max_Visites
+  &lt;fct&gt;            &lt;int&gt;           &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+1 1                   31           10.3                9           1          25
+2 2                   38            8.26               9           4          12
+3 3                   31            8.52               9           5          13
+# ℹ 1 more variable: Ecart_Type_Visites &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Boxplot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un boxplot du nombre de visites selon la catégorie d'âge pour comparer la distribution et détecter les valeurs extrêmes</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(info, <span class="fu">aes</span>(<span class="at">x =</span> age_c, <span class="at">y =</span> visite, <span class="at">fill =</span> age_c)) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.color =</span> <span class="st">"black"</span>, <span class="at">outlier.shape =</span> <span class="dv">16</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot des visites par âge"</span>, <span class="at">x =</span> <span class="st">"Catégorie d'âge"</span>, <span class="at">y =</span> <span class="st">"Nombre de visites"</span>) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T1-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="inférence-statistique-estimation-et-tests-dhypothèsess" class="level3" data-number="0.4">
+<h3 data-number="0.4" class="anchored" data-anchor-id="inférence-statistique-estimation-et-tests-dhypothèsess"><span class="header-section-number">0.4</span> Inférence statistique: estimation et tests d’hypothèsess</h3>
+<p><strong>Population :</strong><br>
+Y : variable d’intérêt<br>
+μ : moyenne de la population<br>
+σ² et σ : variance et écart type de la population<br>
+π : proportion de « succès » dans la population.</p>
+<p>Lorsque les valeurs des paramètres μ, σ et π sont inconnues, on peut être intéressé à les estimer ou à les « tester ».</p>
+<p>Les estimateurs utilisés sont définis à partir d’un échantillon.</p>
+<p><strong>Échantillon aléatoire de n individus :</strong></p>
+<p>y₁, y₂, ……, yₙ : les observations de la variable pour chacun des n individus</p>
+<p>La moyenne de l’échantillon:</p>
+<p><span class="math display">\[
+\overline{Y} = \frac{\sum y_i}{n}    
+\]</span></p>
+<p>La variance de l’échantillon :</p>
+<p><span class="math display">\[
+s^2 = \frac{\sum (y_i - \overline{y})^2}{n-1}
+\]</span></p>
+<p>et s l’écart-type de l’échantillon</p>
+<p>La proportion de succès dans l’échantillon :</p>
+<p><span class="math display">\[
+\hat{\pi}
+\]</span></p>
+</section>
+<section id="estimation" class="level3" data-number="0.5">
+<h3 data-number="0.5" class="anchored" data-anchor-id="estimation"><span class="header-section-number">0.5</span> Estimation</h3>
+<p>Un <strong>estimateur</strong> est une <em>variable aléatoire</em> : sa valeur varie selon l’échantillon observé.</p>
+<p>On peut avoir une idée de la <strong>précision de l’estimateur</strong> en calculant son écart-type (erreur type standard).</p>
+<p>Pour des échantillons de taille ( n ) :</p>
+<ul>
+<li><p>Écart-type de la moyenne échantillonnale :</p>
+<p><span class="math display">\[
+{\overline{X}} = \frac{\sigma}{\sqrt{n}}
+\]</span></p></li>
+<li><p>Écart-type de la proportion échantillonnale :</p>
+<p><span class="math display">\[
+{\hat{\pi}} = \sqrt{\frac{\pi(1-\pi)}{n}}
+\]</span></p></li>
+</ul>
+<p>Sous certaines conditions (variable de référence suivant une loi normale dans la population <strong>ou</strong> taille d’échantillon suffisamment grande), la distribution d’échantillonnage de la moyenne X̄ de la proportion π̂ peut s’approcher d’une <strong>loi normale</strong>.</p>
+</section>
+<section id="estimé-ponctuel" class="level3" data-number="0.6">
+<h3 data-number="0.6" class="anchored" data-anchor-id="estimé-ponctuel"><span class="header-section-number">0.6</span> Estimé ponctuel</h3>
+<p>La valeur prise par l’estimateur dans l’échantillon observé fournit un <strong>estimé « ponctuel »</strong> du paramètre.</p>
+<p>Questions:</p>
+<ul>
+<li><p>Donnez un estimé ponctuel du nombre moyen de visites au cinéma pour la population considérée.</p></li>
+<li><p>Donnez un estimé ponctuel de la proportion de personnes qui vont plus de 10 fois par année au cinéma dans la population considérée.</p></li>
+</ul>
+</section>
+<section id="intervalle-de-confiance" class="level3" data-number="0.7">
+<h3 data-number="0.7" class="anchored" data-anchor-id="intervalle-de-confiance"><span class="header-section-number">0.7</span> Intervalle de confiance</h3>
+<ul>
+<li><p>Il est préférable de donner un intervalle de valeurs pour estimer un paramètre.</p></li>
+<li><p>On peut ainsi associer un degré de précision et un niveau de confiance à l’estimation.</p></li>
+<li><p>Forme générale de l’intervalle de confiance <strong>bilatéral et symétrique:</strong></p>
+<p><strong>IC = Estimé ponctuel ± marge d’erreur</strong></p></li>
+</ul>
+<p>Question</p>
+<p>Quels facteurs peuvent influencer la marge d’erreur de l’intervalle ?</p>
+</section>
+<section id="intervalle-de-confiance-pour-la-moyenne" class="level3" data-number="0.8">
+<h3 data-number="0.8" class="anchored" data-anchor-id="intervalle-de-confiance-pour-la-moyenne"><span class="header-section-number">0.8</span> Intervalle de confiance pour la moyenne</h3>
+<p>Le niveau de confiance le plus courant est 95%. Cette valeur permet généralement d’obtenir fiabilité et précision satisfaisantes, en autant que la taille de l’échantillon soit suffisamment grande.</p>
+<p><strong>Rappel :</strong></p>
+<p><span class="math display">\[
+\overline{X} \pm t_{\frac{\alpha}{2}, n-1} \frac{S}{\sqrt{n}}
+\]</span></p>
+<p>Où :</p>
+<p><br>
+S est l’écart-type de l’échantillon<br>
+<span class="math display">\[
+t_{\frac{\alpha}{2},\,n-1} \text{ est le quantile d'ordre } 1 - \frac{\alpha}{2} \text{ d'une loi de Student à } n - 1 \text{ degrés de liberté.}
+\]</span></p>
+<p>Question:</p>
+<p>Estimez à l’aide d’un intervalle de confiance de niveau 95%, le nombre moyen de visites au cinéma au cours de la dernière année pour la population considérée.Donnez ensuite une interprétation de l’IC</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Effectuer un test t pour estimer la moyenne du nombre de visites et tester s'il diffère significativement d'une valeur hypothétique</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(info<span class="sc">$</span>visite)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  info$visite
+t = 19.362, df = 99, p-value &lt; 2.2e-16
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 8.050733 9.889267
+sample estimates:
+mean of x 
+     8.97 </code></pre>
+</div>
+</div>
+<p>Vrai ou faux?</p>
+<ol type="1">
+<li><p>Le nombre moyen de visites au cinéma effectuées par les individus de la population considérée se situe assurément entre 8.05 et 9.89.</p></li>
+<li><p>On estime que 95% des participants au sondage ont effectué de 8.05 à 9.89 visites au cinéma au cours de la dernière année.</p></li>
+<li><p>Au niveau de confiance 95%, on estime que tous les individus de la population considérée sont allés de 8.05 à 9.89 fois au cinéma au cours de la dernière année.</p></li>
+<li><p>On estime à 95% les chances qu’un individu de la population considérée soit allé de 8.05 à 9.89 visites au cinéma au cours de la dernière année.</p></li>
+<li><p>On a 5% de chances de se tromper lorsqu’on estime que la moyenne du nombre de visites au cinéma effectuées au cours de la dernière année par tous les individus de la population considérée se situe entre 8.05 et 9.89.</p></li>
+<li><p>Au niveau de confiance 95%, on estime que le nombre moyen de visites au cinéma effectuées au cours de la dernière année par les individus de la population considérée se situe entre 8.05 et 9.89.</p></li>
+</ol>
+</section>
+<section id="intervalle-de-confiance-pour-la-proportion" class="level3" data-number="0.9">
+<h3 data-number="0.9" class="anchored" data-anchor-id="intervalle-de-confiance-pour-la-proportion"><span class="header-section-number">0.9</span> Intervalle de confiance pour la proportion</h3>
+<p>Question:</p>
+<p>Estimez à l’aide d’un intervalle de confiance de niveau 95%, la proportion d’individus qui sont allés plus de 10 fois au cinéma au cours de l’année dans la population considérée.</p>
+<p>Admettons que le nombre d’individus qui sont allés plus de 10 fois au cinéma au cours de l’année dans la population considérée est de 23</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir le nombre de succès</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">23</span>  </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir la taille de l'échantillon</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">100</span>  </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer l'intervalle de confiance à 95%</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>resultat <span class="ot">=</span> <span class="fu">prop.test</span>(<span class="at">x =</span> x, <span class="at">n =</span> n, <span class="at">conf.level =</span> <span class="fl">0.95</span>, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(resultat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1-sample proportions test without continuity correction
+
+data:  x out of n, null probability 0.5
+X-squared = 29.16, df = 1, p-value = 6.664e-08
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.1584327 0.3215438
+sample estimates:
+   p 
+0.23 </code></pre>
+</div>
+</div>
+<p>Interprétation: On estime que de 15.84% à 32.15% des individus de la population considérée sont allés plus de 10 fois au cinéma au cours de l’année.</p>
+</section>
+<section id="tests-dhypothèse" class="level3" data-number="0.10">
+<h3 data-number="0.10" class="anchored" data-anchor-id="tests-dhypothèse"><span class="header-section-number">0.10</span> Tests d’hypothèse</h3>
+<p>Procédure statistique qui permet de vérifier une hypothèse de recherche concernant la distribution d’une variable ou la valeur d’un paramètre pour une population entière en se basant sur les données d’un échantillon seulement.</p>
+<p>Exemple:</p>
+<p>Un candidat se présentant à une élection dans une certaine circonscription voudrait évaluer la proportion d’électeurs ayant l’intention de voter pour lui en ce moment.</p>
+<p>Pour ce faire, il examine un échantillon de <strong>n=150</strong> électeurs: parmi eux, <strong>82</strong> ont l’intention de voter pour lui.</p>
+<p>En se basant sur ces résultats, peut-il conclure, hors de tout doute raisonnable, qu’il récolterait plus de 50% des votes aux élections?</p>
+</section>
+<section id="principe-du-test-dhypothèse" class="level3" data-number="0.11">
+<h3 data-number="0.11" class="anchored" data-anchor-id="principe-du-test-dhypothèse"><span class="header-section-number">0.11</span> Principe du test d’hypothèse</h3>
+<p>On confronte 2 hypothèses :</p>
+<p>H<sub>0</sub> :hypothèse nulle (état actuel)</p>
+<p>H<sub>1</sub> : contre-hypothèse (correspond habituellement ce qu’on veut vérifier)</p>
+<p>On tente de déterminer si l’échantillon fournit des « éléments de preuve » suffisants pour pouvoir rejeter l’hypothèse nulle H<sub>0</sub> au profit de H<sub>1</sub>.</p>
+<p>Question:</p>
+<p>Formulez les hypothèses du contexte de l’exemple de la page précédente.</p>
+<section id="rappel" class="level4" data-number="0.11.1">
+<h4 data-number="0.11.1" class="anchored" data-anchor-id="rappel"><span class="header-section-number">0.11.1</span> <strong>Rappel:</strong></h4>
+<p>Un échantillon n’est pas une réplique parfaite de la population. C’est pourquoi on tolère toujours un certain écart <em>entre les résultats observés dans l’échantillon et ce qu’on devrait avoir dans la population selon l’hypothèse nulle</em> H<sub>0</sub><em>.</em></p>
+<p>Si cet écart est assez petit pour s’expliquer uniquement par le hasard de l’échantillonnage :</p>
+<ul>
+<li><p>Écart « non significatif »</p></li>
+<li><p>On ne peut pas rejeter l’hypothèse H<sub>0</sub> (au profit de l’hypothèse H<sub>1</sub>)</p></li>
+</ul>
+<p>Si cet écart est trop grand pour s’expliquer uniquement par le hasard de l’échantillonnage:</p>
+<ul>
+<li><p>Écart « significatif »</p></li>
+<li><p>On peut rejeter l’hypothèse H<sub>0</sub> (au profit de l’hypothèse H<sub>1</sub>)</p></li>
+</ul>
+<p><strong>Remarque</strong> : <em>Le non rejet de H<sub>0</sub> ne signifie pas que cette hypothèse soit nécessairement vraie</em>. Cela veut simplement dire que les données de l’échantillon ne permettent pas de rejeter l’hypothèse H<sub>0</sub> au profit de H<sub>1</sub>, « hors de tout doute raisonnable »…</p>
+</section>
+</section>
+<section id="règle-de-décision-basée-sur-le-seuil-expérimental-valeur-p" class="level3" data-number="0.12">
+<h3 data-number="0.12" class="anchored" data-anchor-id="règle-de-décision-basée-sur-le-seuil-expérimental-valeur-p"><span class="header-section-number">0.12</span> Règle de décision basée sur le seuil expérimental (valeur-p)</h3>
+<p><strong>Exemple du candidat:</strong></p>
+<p>Hypothèses du test: H<sub>0</sub>: 𝜋 ≤ 0.5 𝑣𝑠 H<sub>1</sub>: 𝜋 &gt; 0.5</p>
+<p>𝜋= 82/150= 0.546</p>
+<p>Si l’hypothèse H<sub>0</sub> était vraie, serait-il plausible d’observer un tel résultat dans un échantillon de cette taille ? Autrement dit, quelles sont les chances qu’un échantillon de 150 personnes produise un tel résultat, ou un résultat encore « plus éloigné » de H<sub>0</sub> si l’hypothèse est vraie ? <strong>Cette probabilité s’appelle la « valeur-p ».</strong></p>
+<p>Plus la « valeur-p » est faible, plus on a d’évidence contre H<sub>0</sub>. Une très petite valeur-p nous permet donc de rejeter H<sub>0</sub> et d’accepter H<sub>1</sub>, hors de tout doute raisonnable. En pratique, on utilise souvent 5% comme seuil tolérable :</p>
+<ul>
+<li><p><strong><em>Si « valeur-p » &lt; 5% on rejette H<sub>0</sub> au profit de H<sub>1</sub> (assez d’évidence pour que H<sub>1</sub> soit vraie);</em></strong></p></li>
+<li><p><strong><em>Si « valeur-p » &gt; 5% on ne peut pas rejeter H<sub>0</sub> (pas assez d’évidence que H<sub>1</sub> soit vraie).</em></strong></p></li>
+</ul>
+<p>Question:</p>
+<p>Au seuil de signification 5%, les résultats de l’échantillon permettent-ils de conclure qu’en moyenne, les Montréalais qui fréquentent les cinémas y sont allés plus de 8 fois au cours de la dernière année ? Ensuite, donnez une conclusion.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Effectuer un test t unilatéral pour tester si la moyenne du nombre de visites est significativement supérieure à 8 (H0: μ ≤ 8 vs H1: μ &gt; 8)</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(info<span class="sc">$</span>visite, <span class="at">mu =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  info$visite
+t = 2.0937, df = 99, p-value = 0.03884
+alternative hypothesis: true mean is not equal to 8
+95 percent confidence interval:
+ 8.050733 9.889267
+sample estimates:
+mean of x 
+     8.97 </code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
