@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Thème 8: Série chronologique</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/clipboard/clipboard.min.js"></script>
+<script src="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/quarto-html/quarto.js"></script>
+<script src="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/quarto-html/popper.min.js"></script>
+<script src="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/quarto-html/anchor.min.js"></script>
+<link href="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="LIVRABLE_T8-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="LIVRABLE_T8-DESKTOP-OQF5J47_files/styles.css">
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">0.1</span> Introduction</a></li>
+  <li><a href="#mise-en-situation" id="toc-mise-en-situation" class="nav-link" data-scroll-target="#mise-en-situation"><span class="header-section-number">0.2</span> Mise en situation</a></li>
+  <li><a href="#objectif" id="toc-objectif" class="nav-link" data-scroll-target="#objectif"><span class="header-section-number">0.3</span> Objectif</a></li>
+  <li><a href="#représenation-graphique-dune-série-chronologique" id="toc-représenation-graphique-dune-série-chronologique" class="nav-link" data-scroll-target="#représenation-graphique-dune-série-chronologique"><span class="header-section-number">0.4</span> Représenation graphique d’une série chronologique:</a></li>
+  <li><a href="#les-composantes-dune-série-chronologique" id="toc-les-composantes-dune-série-chronologique" class="nav-link" data-scroll-target="#les-composantes-dune-série-chronologique"><span class="header-section-number">0.5</span> Les composantes d’une série chronologique :</a></li>
+  <li><a href="#modèles-de-série-chronologique-additif-vs-multiplicatif" id="toc-modèles-de-série-chronologique-additif-vs-multiplicatif" class="nav-link" data-scroll-target="#modèles-de-série-chronologique-additif-vs-multiplicatif"><span class="header-section-number">0.6</span> Modèles de série chronologique : Additif vs Multiplicatif</a></li>
+  <li><a href="#estimation-de-la-tendance" id="toc-estimation-de-la-tendance" class="nav-link" data-scroll-target="#estimation-de-la-tendance"><span class="header-section-number">0.7</span> Estimation de la tendance</a></li>
+  <li><a href="#methode-non-parametrique-moyennes-mobiles" id="toc-methode-non-parametrique-moyennes-mobiles" class="nav-link" data-scroll-target="#methode-non-parametrique-moyennes-mobiles"><span class="header-section-number">0.8</span> Methode non parametrique: Moyennes mobiles</a></li>
+  <li><a href="#méthode-paramétrique" id="toc-méthode-paramétrique" class="nav-link" data-scroll-target="#méthode-paramétrique"><span class="header-section-number">0.9</span> Méthode paramétrique</a></li>
+  <li><a href="#désaisonalisation-dune-série-chronologique" id="toc-désaisonalisation-dune-série-chronologique" class="nav-link" data-scroll-target="#désaisonalisation-dune-série-chronologique"><span class="header-section-number">0.10</span> Désaisonalisation d’une série chronologique</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Thème 8: Série chronologique</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level3" data-number="0.1">
+<h3 data-number="0.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">0.1</span> Introduction</h3>
+<p>Les serie temporelles sont utiliser dans plusieurs domaine, en économie, on s’intéresse à l’évolution du produit intérieur brut (PIB), du chômage, ou de l’inflation trimestre après trimestre.En santé publique, on suit le nombre de cas de maladies par jour ou par semaine</p>
+<p>Une série temporelle (ou série chronologique) est une suite réelle finie d’observation notées Y<sub>1</sub>, Y<sub>2</sub>, …, Yₜ, chacune associée à un instant t . Si les valeurs de la série sont mesurées à des intervalles réguliers (mensuel, journalier, annuel), on parle de série temporelle régulière sinon on dit que la série est irrégulière.</p>
+</section>
+<section id="mise-en-situation" class="level3" data-number="0.2">
+<h3 data-number="0.2" class="anchored" data-anchor-id="mise-en-situation"><span class="header-section-number">0.2</span> Mise en situation</h3>
+<p>Ce jeu de données décrit les températures minimales quotidiennes enregistrées pour toute l’annee 1981 dans la ville de Melbourne, en Australie.</p>
+<p>Les unités sont exprimées en degrés Celsius et le jeu de données contient 365 observations.</p>
+<p>La source des données est attribuée au Bureau météorologique australien (Australian Bureau of Meteorology).</p>
+<p>Les températures ayant été mesurées quotidiennement, il s’agit donc d’une série chronologique régulière.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger le package knitr </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer un data frame avec les variables et leurs descriptions</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nom_Variable =</span> <span class="fu">c</span>(<span class="st">"Date"</span>, <span class="st">"Temp"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Description =</span> <span class="fu">c</span>( <span class="st">"Date d'enregistrement de la température (au format AAAA-MM-JJ)"</span>,<span class="st">"Température quotidienne moyenne enregistrée (en degrés Celsius)"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher le tableau</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(variables, <span class="at">format =</span> <span class="st">"pipe"</span>, <span class="at">align =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Nom_Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Date</td>
+<td style="text-align: left;">Date d’enregistrement de la température (au format AAAA-MM-JJ)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temp</td>
+<td style="text-align: left;">Température quotidienne moyenne enregistrée (en degrés Celsius)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir le répertoire de travail</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/Fatou/OneDrive - HEC Montréal/PROJET SUPERVISE/Data"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger les données</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>meteo<span class="ot">=</span><span class="fu">read.csv</span>(<span class="st">"Météo.csv"</span>,<span class="at">sep=</span><span class="st">";"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>meteo<span class="sc">$</span>Date <span class="ot">=</span> <span class="fu">as.Date</span>(meteo<span class="sc">$</span>Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="objectif" class="level3" data-number="0.3">
+<h3 data-number="0.3" class="anchored" data-anchor-id="objectif"><span class="header-section-number">0.3</span> Objectif</h3>
+<p>L’analyse de série chronologique permet de répondre à différentes questions :</p>
+<ul>
+<li><p>Quelle est l’évolution globale de la variable étudiée ?</p></li>
+<li><p>Peut-on estimer les valeurs futures de la série ?</p></li>
+<li><p>Y a-t-il eu un changement de régime ou un événement perturbateur à un moment donné ?</p></li>
+</ul>
+</section>
+<section id="représenation-graphique-dune-série-chronologique" class="level3" data-number="0.4">
+<h3 data-number="0.4" class="anchored" data-anchor-id="représenation-graphique-dune-série-chronologique"><span class="header-section-number">0.4</span> Représenation graphique d’une série chronologique:</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphique de la température quotidienne</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(meteo, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Temp)) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Température quotidienne"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Température "</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T8-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>La représentation graphique d’une série chronologique nous permet de repérer certaines caractéristiques telles que :</p>
+<ul>
+<li><p>Une tendance</p></li>
+<li><p>Un cycle</p></li>
+<li><p>Un phénomène périodique</p></li>
+<li><p>Des variations accidentelles</p></li>
+<li><p>Des variations irrégulières</p></li>
+</ul>
+</section>
+<section id="les-composantes-dune-série-chronologique" class="level3" data-number="0.5">
+<h3 data-number="0.5" class="anchored" data-anchor-id="les-composantes-dune-série-chronologique"><span class="header-section-number">0.5</span> Les composantes d’une série chronologique :</h3>
+<p>On distingue 3 composantes dans une serie chronologique:</p>
+<p><strong>La tendance: T(t)</strong></p>
+<p>La tendance représente la composante structurelle de long terme. Elle reflète une évolution générale (à la hausse ou à la baisse) de la série.</p>
+<p>La tendance peut être de type:</p>
+<ul>
+<li><p>Linéaire : Tₜ = a + b*t</p></li>
+<li><p>Quadratique : Tₜ = at<sup>2</sup> + b*t + c</p></li>
+<li><p>Tendance logarithmique : Tₜ = log(t)</p></li>
+</ul>
+<p>Par exemple: l’augmentation de la population dans une ville sur plusieurs décennies</p>
+<p><strong>La saisonalite: S(t)</strong></p>
+<p>Il s’agit de variations périodiques régulières observées sur des cycles courts et liées au calendrier</p>
+<p>Par exemple: La hausse des ventes de chocolat à Pâques ;</p>
+<p><strong>Le cycle: C(t)</strong></p>
+<p>Le cycle est une fluctuation de long terme, qui n?est pas strictement périodique. Il est souvent associé à des cycles économiques, politiques ou sociaux ou environnementaux.</p>
+<p>Par exemple: L’alternance entre croissance et récession dans l?économie sur plusieurs années.</p>
+<p><strong>Le résidus: R(t)</strong></p>
+<p>Cette composante représente la part aléatoire, de la série : des variations ponctuelles,imprévues, comme une grève, une crise sanitaire, une panne informatique.</p>
+<p>On suppose en général que les résidus ont une espérance nulle, une variance constante, et sont non correles.</p>
+</section>
+<section id="modèles-de-série-chronologique-additif-vs-multiplicatif" class="level3" data-number="0.6">
+<h3 data-number="0.6" class="anchored" data-anchor-id="modèles-de-série-chronologique-additif-vs-multiplicatif"><span class="header-section-number">0.6</span> Modèles de série chronologique : Additif vs Multiplicatif</h3>
+<section id="modèle-additif" class="level4" data-number="0.6.1">
+<h4 data-number="0.6.1" class="anchored" data-anchor-id="modèle-additif"><span class="header-section-number">0.6.1</span> Modèle Additif</h4>
+<p>Le modèle additif suppose que l’effet de chacune des composantes est indépendant des autres, et qu’on peut les additionner, ainsi chaque obervation est donne par la fonction:</p>
+<p>Yₜ = Tₜ + Sₜ + Cₜ + Rₜ pour t allant de 1 à n</p>
+<p>Ce modèle est adapté quand :</p>
+<ul>
+<li><p>Les amplitudes saisonnières restent constantes au fil du temps</p></li>
+<li><p>Les fluctuations sont homogènes, quelle que soit la valeur de la tendance.</p></li>
+</ul>
+<p>Pour un modèle additif, l’amplitude des variations est constante autour de la tendance c’est-à-dire que l’on peut coincer la courbe entre deux lignes parallèles.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T8-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="modèle-multiplicatif" class="level4" data-number="0.6.2">
+<h4 data-number="0.6.2" class="anchored" data-anchor-id="modèle-multiplicatif"><span class="header-section-number">0.6.2</span> Modèle Multiplicatif</h4>
+<p>Dans le modèle multiplicatif, les composantes interagissent de manière proportionnelle :</p>
+<p>Yₜ = Tₜ × Sₜ × Cₜ × Rₜ pour t allant de 1 à n</p>
+<p>Ce modèle est plus adapté lorsque :</p>
+<ul>
+<li><p>Les amplitudes saisonnières augmentent avec le niveau de la tendance</p></li>
+<li><p>Les effets saisonniers sont plus marqués quand la série prend de grandes valeurs</p></li>
+</ul>
+<p>Pour un modèle multiplicatif, l’amplitude des variations n’est pas constante autour de la tendance, soit elle diminue ou augmente avec le temps. Ainsi, le droite qui coince la courbe se rejoint ou s’éloigne.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Données simulées </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">16</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>trend <span class="ot">=</span> <span class="fl">1.1</span> <span class="sc">^</span> t                        </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>seasonality <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">0.8</span>, <span class="fl">1.1</span>, <span class="fl">0.9</span>), <span class="dv">4</span>) </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>random_noise <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.05</span>, <span class="fl">0.95</span>, <span class="fl">0.9</span>, <span class="fl">1.1</span>, <span class="fl">1.02</span>, <span class="fl">0.88</span>, <span class="fl">0.93</span>, <span class="fl">1.07</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">1.1</span>, <span class="fl">0.92</span>, <span class="fl">0.95</span>, <span class="fl">1.08</span>, <span class="fl">1.12</span>, <span class="fl">0.9</span>, <span class="fl">0.98</span>, <span class="fl">1.05</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplication des composantes</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> trend <span class="sc">*</span> seasonality <span class="sc">*</span> random_noise</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Limites pour les lignes parallèles</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>upper <span class="ot">=</span> trend <span class="sc">*</span> <span class="fl">1.2</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">=</span> trend <span class="sc">*</span> <span class="fl">0.8</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Tracé</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, y, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(lower) <span class="sc">*</span> <span class="fl">0.9</span>, <span class="fu">max</span>(upper) <span class="sc">*</span> <span class="fl">1.1</span>),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Trimestres"</span>, <span class="at">ylab =</span> <span class="st">"Ventes "</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Modèle Multiplicatif"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, upper, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, lower, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T8-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="estimation-de-la-tendance" class="level3" data-number="0.7">
+<h3 data-number="0.7" class="anchored" data-anchor-id="estimation-de-la-tendance"><span class="header-section-number">0.7</span> Estimation de la tendance</h3>
+<p>On a une série chronologique ( Yₜ) pour t allant de 1 à n et on cherche une fonction du temps qui permet de modéliser la tendance. C’est-à-dire qu’on cherche à modélisé T en fonction de t.</p>
+<p><strong>Rappel:</strong></p>
+<p>La tendance peut être de type de différent type notamment:</p>
+<ul>
+<li><p>Linéaire : Tₜ = a + bt</p></li>
+<li><p>Quadratique : Tₜ = at²+ bt + c</p></li>
+<li><p>Logarithmique : Tₜ = log(t)</p></li>
+</ul>
+<p>Il y a deux types de méthode pour modéliser la tendance, les méthodes dites non paramétriques et celles dites paramétriques.</p>
+<p>On va d’abord intéresser aux méthodes non paramétriques:</p>
+</section>
+<section id="methode-non-parametrique-moyennes-mobiles" class="level3" data-number="0.8">
+<h3 data-number="0.8" class="anchored" data-anchor-id="methode-non-parametrique-moyennes-mobiles"><span class="header-section-number">0.8</span> Methode non parametrique: Moyennes mobiles</h3>
+<p>La moyenne mobile est une méthode simple permettant d’extraire la tendance d’une série chronologique. Le calcul de la moyenne mobile dépend d’un paramètre l , appelé la demi-largeur de la fenêtre, car on prend l observations avant t et l observations après t , en plus de t lui-même. Ainsi, pour l=k la fenêtre sera donnée par :</p>
+<p><span class="math display">\[
+\{t - k, \ldots, t, \ldots, t + k\}
+\]</span></p>
+<p>Ce paramètre correspond au nombre d’observations incluses dans le calcul de la moyenne mobile.</p>
+<p>La moyenne mobile se calcule par:</p>
+<p><span class="math display">\[
+T_t = \frac{1}{2l + 1} \sum_{i=t-l}^{t+l} y_i
+\]</span></p>
+<ul>
+<li><p>Tₜ est la tendance se la serie au temps t</p></li>
+<li><p>l est la largeur de la fenetre</p></li>
+<li><p>Yₜ= valeur de la serie au temps t</p></li>
+</ul>
+<p>Calculons donc la moyenne mobile de notre série chronoloique avec une fenêtre de taille 3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charge le package zoo pour les fonctions de séries temporelles</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attachement du package : 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Les objets suivants sont masqués depuis 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Moyenne mobile avec une fenêtre de taille 3</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>meteo<span class="sc">$</span>mm<span class="ot">=</span><span class="fu">rollmean</span>(meteo<span class="sc">$</span>Temp, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">align =</span> <span class="st">"center"</span>, <span class="at">fill =</span> <span class="cn">NA</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(meteo<span class="sc">$</span>mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1]        NA 19.133333 17.100000 16.400000 15.400000 15.800000 16.333333
+  [8] 18.333333 19.733333 19.333333 16.500000 15.400000 17.166667 21.066667
+ [15] 22.400000 22.100000 22.033333 21.033333 19.333333 17.133333 15.266667
+ [22] 14.900000 14.166667 15.633333 17.066667 18.200000 18.433333 17.366667
+ [29] 15.933333 15.333333 15.266667 16.500000 18.666667 20.200000 19.466667
+ [36] 17.766667 16.000000 16.166667 18.900000 19.033333 17.900000 14.200000
+ [43] 15.300000 18.066667 20.800000 21.766667 20.566667 18.733333 17.033333
+ [50] 16.133333 16.133333 16.266667 15.833333 15.100000 15.766667 16.600000
+ [57] 17.633333 18.533333 18.833333 19.200000 17.800000 17.200000 15.433333
+ [64] 14.533333 13.000000 14.000000 14.600000 14.733333 13.366667 12.900000
+ [71] 12.900000 12.600000 11.233333 11.200000 12.166667 12.366667 14.100000
+ [78] 14.933333 13.900000 10.933333  8.300000 10.066667 11.033333 12.566667
+ [85] 11.766667 13.133333 13.900000 15.066667 15.333333 15.666667 16.433333
+ [92] 17.000000 17.133333 17.566667 17.266667 14.900000 13.833333 13.600000
+ [99] 14.600000 12.166667 10.700000 10.866667 12.666667 13.266667 12.800000
+[106] 12.600000 12.566667 13.133333 12.533333 11.133333  9.866667  9.600000
+[113] 10.433333 10.066667  9.266667  8.733333  8.866667  9.700000  8.866667
+[120]  8.633333  9.300000 11.500000 11.500000 10.866667 10.700000 11.833333
+[127] 12.000000 11.066667  9.766667  9.633333  9.600000  8.666667  7.500000
+[134]  6.800000  8.766667  9.833333  8.966667  6.300000  3.733333  2.900000
+[141]  3.633333  6.133333  8.833333 11.133333 12.133333 11.966667 11.600000
+[148] 11.200000 11.466667 12.000000 12.066667 11.666667 10.666667 10.533333
+[155]  8.900000  8.000000  5.100000  4.366667  3.533333  6.366667  7.100000
+[162]  8.133333  7.933333  9.833333 10.333333  8.900000  6.000000  4.366667
+[169]  4.433333  4.800000  4.833333  5.100000  5.433333  5.900000  5.600000
+[176]  6.433333  7.566667  8.900000  9.633333  9.733333  9.900000 10.066667
+[183]  9.066667  7.833333  6.966667  7.500000  7.366667  7.666667  7.933333
+[190]  7.266667  6.766667  5.700000  6.200000  6.266667  6.766667  6.833333
+[197]  7.433333  6.700000  7.066667  7.500000  9.833333 10.366667  9.966667
+[204]  9.233333  9.233333  9.333333  8.633333  8.300000  7.266667  5.866667
+[211]  4.266667  4.133333  5.533333  7.466667  8.900000  8.400000  7.700000
+[218]  6.533333  6.733333  6.766667  6.333333  5.066667  4.600000  5.500000
+[225]  7.500000  8.500000  9.300000  9.800000  9.466667  9.266667  9.933333
+[232]  9.866667  9.266667  6.400000  6.133333  5.033333  6.066667  5.866667
+[239]  6.166667  6.533333  6.366667  6.600000  6.566667  8.166667  9.366667
+[246]  9.900000  9.300000  8.533333  9.066667 11.100000 12.500000 11.366667
+[253] 10.600000 10.066667 11.300000  9.633333  9.900000 10.766667 11.900000
+[260] 13.900000 12.700000 11.300000  9.333333  7.933333  9.266667  8.000000
+[267]  8.433333  8.500000  8.700000  9.366667  9.600000 11.133333 10.900000
+[274] 11.500000 10.233333  9.333333  8.733333 10.266667 12.966667 11.600000
+[281] 11.500000  9.333333  8.966667  6.533333  7.266667  9.633333 10.533333
+[288] 10.600000  9.033333  8.700000  8.766667  9.633333 11.600000 11.933333
+[295] 11.233333  9.033333  8.033333  8.233333 10.433333 11.800000 12.233333
+[302] 11.500000 11.233333 10.633333 10.800000 11.433333 12.933333 12.566667
+[309] 11.866667  9.833333  9.566667 10.466667 13.166667 13.466667 12.233333
+[316] 10.233333  9.900000 10.166667  9.900000  9.866667 10.066667 11.000000
+[323] 12.333333 12.566667 12.033333 12.833333 13.166667 13.766667 11.800000
+[330] 11.466667 13.433333 15.133333 15.466667 14.000000 12.500000 12.700000
+[337] 12.066667 12.900000 13.166667 14.233333 14.100000 13.266667 12.866667
+[344] 13.600000 15.166667 13.900000 13.000000 11.533333 12.033333 13.466667
+[351] 14.400000 15.100000 13.300000 11.800000 12.366667 12.966667 14.266667
+[358] 14.000000 14.400000 14.566667 14.266667 14.800000 14.700000 16.066667
+[365]        NA</code></pre>
+</div>
+</div>
+<p>Cela nous retourne, pour chaque instant t, une estimation de la tendance locale autour de ce point.</p>
+<p><strong>Visualisation graphique de la moyenne mobile:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphique de la température avec la courbe de la moyenne mobile</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(meteo, <span class="fu">aes</span>(<span class="at">x =</span> Date)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Temp), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mm), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Température avec Moyenne Mobile"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Température"</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T8-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Remarquons que la moyenne mobile est un estimateur non paramétrique de la tendance, au sens où nous ne supposons pas de structure a priori pour cette tendance (linéaire, polynomiale, etc.).</p>
+<p><strong>Exercice</strong><br>
+Déterminer quelle est la tendance autour de la date 1981-08-14.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire la tendance à la date précise du </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>meteo[meteo<span class="sc">$</span>Date <span class="sc">==</span> (<span class="st">"1981-08-14"</span>), <span class="fu">c</span>(<span class="st">"mm"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.5</code></pre>
+</div>
+</div>
+<p>La tendance au 14 août 1981 est de 8,5 degrés.</p>
+</section>
+<section id="méthode-paramétrique" class="level3" data-number="0.9">
+<h3 data-number="0.9" class="anchored" data-anchor-id="méthode-paramétrique"><span class="header-section-number">0.9</span> Méthode paramétrique</h3>
+<section id="méthode-des-moindres-carrés" class="level4" data-number="0.9.1">
+<h4 data-number="0.9.1" class="anchored" data-anchor-id="méthode-des-moindres-carrés"><span class="header-section-number">0.9.1</span> Méthode des moindres carrés</h4>
+<p>On veut ajuster les données par une droite, et donc modéliser la tendance par une fonction de la forme :</p>
+<p><span class="math display">\[
+T_t = a + b \cdot t
+\]</span></p>
+<p>Cette méthode consiste à choisir les coefficients a et b qui minimisent la somme des carrés des résidus (écarts entre la donnée réelle et la tendance estimée). Elle est donnée par l’expression suivante :</p>
+<p><span class="math display">\[
+min\sum_{t=1}^{n} \left( y_t - (a + bt) \right)^2
+\]</span></p>
+<p>On cherche donc les valeurs de a et b solutions du système :</p>
+<p><span class="math display">\[
+S(a, b)
+\begin{cases}
+\frac{\partial f}{\partial a}(a, b) = 0 \\
+\frac{\partial f}{\partial b}(a, b) = 0
+\end{cases}
+\]</span></p>
+<p>On démontre que le couple solution est (â , b̂) avec :</p>
+<p><span class="math display">\[
+\hat{b} = \frac{\sum_{i=1}^{n} y_i t_i - n \bar{t} \bar{y}}{\sum_{i=1}^{n} t_i^2 - n \bar{t}^2}
+\quad , \quad
+\hat{a} = \bar{y} - \hat{b} \bar{t}
+\]</span></p>
+<p>où</p>
+<p><span class="math display">\[
+\bar{t} = \frac{1}{n} \sum_{i=1}^{n} t_i
+\quad , \quad
+\bar{y} = \frac{1}{n} \sum_{i=1}^{n} y_i
+\]</span></p>
+<p>La droite d’équation y=â+b̂*t s’appelle la droite des moindres carrés.</p>
+<p>Pour faciliter nos analyses, nous allons créer une nouvelle variable que nous nommerons t. Elle prendra des valeurs de 1 à 365, et nous l’utiliserons dans notre modèle de régression.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Créer une variable t</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>meteo<span class="sc">$</span>t <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">365</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Création d'un modèle linéaire</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>fonction<span class="ot">=</span><span class="fu">lm</span>(Temp<span class="sc">~</span>t, <span class="at">data=</span>meteo)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fonction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Temp ~ t, data = meteo)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-10.0856  -2.6942   0.0809   2.9799  11.2603 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 14.361394   0.421808  34.047  &lt; 2e-16 ***
+t           -0.015542   0.001998  -7.781 7.58e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.021 on 363 degrees of freedom
+Multiple R-squared:  0.1429,    Adjusted R-squared:  0.1406 
+F-statistic: 60.54 on 1 and 363 DF,  p-value: 7.58e-14</code></pre>
+</div>
+</div>
+<p>La tendance est modéliser par la fonction: Tₜ= 14.36 - 0.015*t</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphique de la température avec sa tendance linéaire</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(meteo, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> Temp)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>                             </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Tendance de la température par moindres carrés"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Température (°C)"</span>) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T8-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Exercice</strong></p>
+<p>Déterminer quelle est la tendance au temps t=226 (1981-08-14)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Prédiction avec la fonction linéaire</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(fonction, <span class="fu">list</span>(<span class="at">t =</span> <span class="dv">226</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+10.84897 </code></pre>
+</div>
+</div>
+<p>Entre la méthode des moyennes mobiles et celle des moindres carrés, la tendance diffère de deux unités à la date du 1981-08-14</p>
+</section>
+<section id="méthode-des-moindres-carrés-généralisée" class="level4" data-number="0.9.2">
+<h4 data-number="0.9.2" class="anchored" data-anchor-id="méthode-des-moindres-carrés-généralisée"><span class="header-section-number">0.9.2</span> Méthode des moindres carrés généralisée</h4>
+<p>On remarque ici que la droite de régression ne semble pas bien ajuster notre série chronologique.<br>
+Un modèle linéaire n’est donc peut-être pas adapté à la structure de la série.<br>
+Nous allons alors utiliser la <strong>forme généralisée de la méthode des moindres carrés</strong>, qui permet d’estimer une <strong>régression polynomiale</strong>. La tendance sera alors donnée par une fonction polynomiale du temps, de la forme suivante :</p>
+<p><span class="math display">\[
+T_t = a + b \cdot t   \ + c^2\cdot t \ + d^3\cdot t \ +...
+\]</span></p>
+<p>On cherche les coefficients a₀,a₁,…aₚ qui minimisent la somme des carrés des résidus :</p>
+<p><span class="math display">\[
+\min_{a_0, \ldots, a_p} \sum_{t=1}^n \left( y_t - (a_0 + a_1 t + a_2 t^2 + \cdots + a_p t^p) \right)^2
+\]</span></p>
+<p>Soit X ∈ ℝⁿ×(p+1) la matrice de régression :</p>
+<p><span class="math display">\[
+X =
+\begin{bmatrix}
+1 &amp; t_1 &amp; t_1^2 &amp; \cdots &amp; t_1^p \\
+1 &amp; t_2 &amp; t_2^2 &amp; \cdots &amp; t_2^p \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; t_n &amp; t_n^2 &amp; \cdots &amp; t_n^p \\
+\end{bmatrix}
+\]</span></p>
+<p>Le vecteur des observations :</p>
+<p><span class="math display">\[
+\mathbf{y} =
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_n \\
+\end{bmatrix}
+,\quad
+\mathbf{a} =
+\begin{bmatrix}
+a_0 \\
+a_1 \\
+\vdots \\
+a_p \\
+\end{bmatrix}
+\]</span></p>
+<p>La solution du système est donnée par la formule des moindres carrés :</p>
+<p><span class="math display">\[
+\hat{\mathbf{a}} = (X^\top X)^{-1} X^\top \mathbf{y}
+\]</span></p>
+</section>
+<section id="choix-du-degrée-du-polynome" class="level4" data-number="0.9.3">
+<h4 data-number="0.9.3" class="anchored" data-anchor-id="choix-du-degrée-du-polynome"><span class="header-section-number">0.9.3</span> Choix du degrée du polynome</h4>
+<p>On choisira le polynôme de degré k le plus petit possible qui maximise un critère de performance, en l’occurrence ici on choisi <strong>le coefficient de détermination ajusté (R² ajusté)</strong>. Ainsi, nous <strong>retiendrons le modèle polynomial le plus simple offrant le meilleur ajustement selon ce critère.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modèles polynomiaux de degré 1 à 3</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">=</span> <span class="fu">lm</span>(Temp <span class="sc">~</span> <span class="fu">poly</span>(t, <span class="dv">1</span>), <span class="at">data =</span> meteo)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">=</span> <span class="fu">lm</span>(Temp <span class="sc">~</span> <span class="fu">poly</span>(t, <span class="dv">2</span>), <span class="at">data =</span> meteo)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">=</span> <span class="fu">lm</span>(Temp <span class="sc">~</span> <span class="fu">poly</span>(t, <span class="dv">3</span>), <span class="at">data =</span> meteo)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Résumé </span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Temp ~ poly(t, 1), data = meteo)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-10.0856  -2.6942   0.0809   2.9799  11.2603 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  11.5173     0.2105  54.721  &lt; 2e-16 ***
+poly(t, 1)  -31.2857     4.0210  -7.781 7.58e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.021 on 363 degrees of freedom
+Multiple R-squared:  0.1429,    Adjusted R-squared:  0.1406 
+F-statistic: 60.54 on 1 and 363 DF,  p-value: 7.58e-14</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Temp ~ poly(t, 2), data = meteo)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-7.326 -1.835 -0.004  1.911  8.473 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  11.5173     0.1421   81.04   &lt;2e-16 ***
+poly(t, 2)1 -31.2857     2.7151  -11.52   &lt;2e-16 ***
+poly(t, 2)2  56.5739     2.7151   20.84   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.715 on 362 degrees of freedom
+Multiple R-squared:  0.6103,    Adjusted R-squared:  0.6082 
+F-statistic: 283.5 on 2 and 362 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Temp ~ poly(t, 3), data = meteo)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.5077 -1.9538 -0.0305  1.8886  8.4884 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  11.5173     0.1419  81.183   &lt;2e-16 ***
+poly(t, 3)1 -31.2857     2.7104 -11.543   &lt;2e-16 ***
+poly(t, 3)2  56.5739     2.7104  20.873   &lt;2e-16 ***
+poly(t, 3)3   4.0865     2.7104   1.508    0.132    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.71 on 361 degrees of freedom
+Multiple R-squared:  0.6127,    Adjusted R-squared:  0.6095 
+F-statistic: 190.4 on 3 and 361 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Courbe de température réelle</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>base_plot <span class="ot">=</span> <span class="fu">ggplot</span>(meteo, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> Temp)) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Comparaison des modèles polynomiaux"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Temps (t)"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Température"</span>) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajout des trois régressions</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>base_plot <span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">1</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"green"</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle =</span> <span class="st">"Rouge : degré 1 — Vert : degré 2 — Bleu : degré 3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T8-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Le modèle polynomial de degré 1 nous donne la même courbe que notre modèle linéaire. Même si l’expression de la fonction est différente, le R² ajusté et les résidus restent identiques.<br>
+On observe que les courbes des modèles de degré 2 et 3 se superposent et épousent mieux la forme de notre série chronologique.<br>
+Le R² ajusté du modèle de degré 2 est de 0,6082, et celui du modèle de degré 3 est de 0,6095. Le modèle de degré 3 n’apporte donc pas d’amélioration significative.<br>
+Nous retiendrons donc le <strong>modèle de degré 2</strong>, qui explique au mieux la tendance de notre série.</p>
+<p><strong>Exercice</strong></p>
+<p>Déterminer quelle est la tendance au temps t=226 (1981-08-14)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Prédiction avec le modele 2 </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(mod2, <span class="fu">list</span>(<span class="at">t =</span> <span class="dv">226</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+8.089592 </code></pre>
+</div>
+</div>
+<p>On observe qu’avec notre modèle polynomial de degré 2, la tendance à la date du 14 août 1981 se rapproche davantage de celle obtenue avec la méthode de la moyenne mobile que de celle obtenue avec la méthode des moindres carrés linéaire.</p>
+</section>
+</section>
+<section id="désaisonalisation-dune-série-chronologique" class="level3" data-number="0.10">
+<h3 data-number="0.10" class="anchored" data-anchor-id="désaisonalisation-dune-série-chronologique"><span class="header-section-number">0.10</span> Désaisonalisation d’une série chronologique</h3>
+<section id="modele-additif" class="level4" data-number="0.10.1">
+<h4 data-number="0.10.1" class="anchored" data-anchor-id="modele-additif"><span class="header-section-number">0.10.1</span> Modele additif</h4>
+<p>Pour rappel le modele additif se décompose sous la forme suivante:</p>
+<p>Yₜ = Tₜ + Sₜ + Cₜ + Rₜ, pour tout t allant de 1 à n</p>
+<p>Pour simplifier nos analyses, nous ne prendrons en compte que les composantes de tendance et de saisonnalité . Le modèle devient alors :</p>
+<p>Yₜ = Tₜ + Sₜ</p>
+<p>Ainsi, si l’on connaît la tendance Tₜ et la saisonnalité peut être isolée par la relation suivante :</p>
+<p>Sₜ =Yₜ -Tₜ pour tout t allant de 1 à n</p>
+<p>On obtient les coeffients Sⱼ en calculant les moyennes des différences Yt -Tt correspondant à une meme saison. On calcule ensuite la moyenne Cⱼ de ces coeffients Sⱼ . Si le modèle est bien choisi, la moyenne doit etre proche de 0.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On calcule la tendance à l’aide du modèle mod2</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>meteo<span class="sc">$</span>Tendance <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod2)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># On calcule la saisonnalité en soustrayant la tendance à la température observée</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>meteo<span class="sc">$</span>Saisonalite <span class="ot">&lt;-</span> meteo<span class="sc">$</span>Temp <span class="sc">-</span> meteo<span class="sc">$</span>Tendance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Afin de calculer les coefficients saisonniers Sⱼ, on regroupe d’abord les observations par période saisonnière (par exemple, chaque mois). Pour chaque période, on calcule ensuite la moyenne arithmétique des valeurs de la composante saisonnière observées sur l’ensemble des cycles disponibles. Cela donne un coefficient saisonnier moyen Sⱼ pour chaque saison . Dans notre cas on choisira des periodes mensuelles. Ensuite, on détermine la moyenne arithmétique Cⱼ des Sⱼ coefficients saisonniers non centrés, ce qui permet d’obtenir un coefficient moyen utilisé pour centrer les coefficients saisonniers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attachement du package : 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>meteo<span class="sc">$</span>Mois <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">format</span>(meteo<span class="sc">$</span>Date, <span class="st">"%m"</span>))</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculer les coefficient Sⱼ</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>coeff_saisonalite <span class="ot">=</span> meteo <span class="sc">%&gt;%</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Mois) <span class="sc">%&gt;%</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">coef =</span> <span class="fu">mean</span>(Saisonalite, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(coeff_saisonalite)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+    Mois   coef
+   &lt;dbl&gt;  &lt;dbl&gt;
+ 1     1 -1.43 
+ 2     2  1.68 
+ 3     3  0.113
+ 4     4  1.13 
+ 5     5 -0.129
+ 6     6 -1.26 
+ 7     7 -0.494
+ 8     8 -0.896
+ 9     9  1.39 
+10    10  0.153
+11    11  0.226
+12    12 -0.271</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculer la moyenne Cⱼ des coeficients Sⱼ</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>Moyenne_coeff_saison<span class="ot">=</span><span class="fu">mean</span>(coeff_saisonalite<span class="sc">$</span>coef)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Moyenne_coeff_saison)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01752482</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Soustraire Cⱼ aux coefficients Sⱼ</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>coeff_saison_centre<span class="ot">=</span> coeff_saisonalite<span class="sc">-</span>Moyenne_coeff_saison</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>coeff_saison_centre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Mois        coef
+1   0.9824752 -1.44732531
+2   1.9824752  1.66000481
+3   2.9824752  0.09525634
+4   3.9824752  1.11468202
+5   4.9824752 -0.14676222
+6   5.9824752 -1.27731378
+7   6.9824752 -0.51131591
+8   7.9824752 -0.91366604
+9   8.9824752  1.37048446
+10  9.9824752  0.13591556
+11 10.9824752  0.20869096
+12 11.9824752 -0.28865088</code></pre>
+</div>
+</div>
+<p>Pour obtenir la série désaisonnalisée, on soustrait les coefficients centrés aux valeurs Yₜ .</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On calcule la série désaisonnalisée en soustrayant les coefficients saisonniers centrés à la série d'origine</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>meteo<span class="sc">$</span>Tendance<span class="sc">-</span>coeff_saison_centre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Mois     coef
+1  19.930648 20.91429
+2  18.806854 17.69033
+3  17.683657 19.13903
+4  16.561057 18.00416
+5  15.439053 19.15076
+6  14.317645 20.16706
+7  13.196834 19.28741
+8  12.076619 19.57670
+9  10.957000 17.18009
+10  9.837978 18.30280
+11  8.719553 18.11875
+12  7.601724 18.50542</code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

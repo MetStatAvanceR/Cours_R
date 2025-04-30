@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Thème 3: ANOVA à un facteur</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/clipboard/clipboard.min.js"></script>
+<script src="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/quarto-html/quarto.js"></script>
+<script src="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/quarto-html/popper.min.js"></script>
+<script src="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/quarto-html/anchor.min.js"></script>
+<link href="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="LIVRABLE_T3-DESKTOP-OQF5J47_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="LIVRABLE_T3-DESKTOP-OQF5J47_files/styles.css">
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#comparaison-de-plusieurs-groupes-échantillons-indépendants-anova-à-1-facteur" id="toc-comparaison-de-plusieurs-groupes-échantillons-indépendants-anova-à-1-facteur" class="nav-link active" data-scroll-target="#comparaison-de-plusieurs-groupes-échantillons-indépendants-anova-à-1-facteur"><span class="header-section-number">1</span> Comparaison de plusieurs groupes échantillons indépendants: ANOVA à 1 facteur</a>
+  <ul class="collapse">
+  <li><a href="#comparaison-de-plusieurs-groupes-échantillons-indépendants" id="toc-comparaison-de-plusieurs-groupes-échantillons-indépendants" class="nav-link" data-scroll-target="#comparaison-de-plusieurs-groupes-échantillons-indépendants"><span class="header-section-number">1.1</span> Comparaison de plusieurs groupes – Échantillons indépendants</a></li>
+  <li><a href="#anova-à-1-facteur" id="toc-anova-à-1-facteur" class="nav-link" data-scroll-target="#anova-à-1-facteur"><span class="header-section-number">1.2</span> ANOVA à 1 facteur</a></li>
+  <li><a href="#test-classique-le-test-de-fisher" id="toc-test-classique-le-test-de-fisher" class="nav-link" data-scroll-target="#test-classique-le-test-de-fisher"><span class="header-section-number">1.3</span> Test classique: Le Test de Fisher</a></li>
+  <li><a href="#décomposition-de-la-variabilité-totale-ssc-ssg-sse" id="toc-décomposition-de-la-variabilité-totale-ssc-ssg-sse" class="nav-link" data-scroll-target="#décomposition-de-la-variabilité-totale-ssc-ssg-sse"><span class="header-section-number">1.4</span> Décomposition de la variabilité totale : SSc = SSg + SSe</a></li>
+  <li><a href="#test-f-de-fisher" id="toc-test-f-de-fisher" class="nav-link" data-scroll-target="#test-f-de-fisher"><span class="header-section-number">1.5</span> Test F de Fisher</a></li>
+  <li><a href="#importance-de-leffet-du-facteur" id="toc-importance-de-leffet-du-facteur" class="nav-link" data-scroll-target="#importance-de-leffet-du-facteur"><span class="header-section-number">1.6</span> Importance de l’effet du facteur</a></li>
+  <li><a href="#que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites" id="toc-que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites" class="nav-link" data-scroll-target="#que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites"><span class="header-section-number">1.7</span> Que faire si les conditions du Test-F ne sont pas satisfaites ?</a></li>
+  <li><a href="#que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites-1" id="toc-que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites-1" class="nav-link" data-scroll-target="#que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites-1"><span class="header-section-number">1.8</span> Que faire si les conditions du Test-F ne sont pas satisfaites ?</a></li>
+  <li><a href="#analyse-fine-des-résultat" id="toc-analyse-fine-des-résultat" class="nav-link" data-scroll-target="#analyse-fine-des-résultat"><span class="header-section-number">1.9</span> Analyse fine des résultat</a></li>
+  <li><a href="#méthode-de-comparaison-multiple" id="toc-méthode-de-comparaison-multiple" class="nav-link" data-scroll-target="#méthode-de-comparaison-multiple"><span class="header-section-number">1.10</span> Méthode de comparaison multiple</a></li>
+  <li><a href="#comparaisons-multiples-permettant-de-contrôler-le-niveau-global-de-tous-les-tests" id="toc-comparaisons-multiples-permettant-de-contrôler-le-niveau-global-de-tous-les-tests" class="nav-link" data-scroll-target="#comparaisons-multiples-permettant-de-contrôler-le-niveau-global-de-tous-les-tests"><span class="header-section-number">1.11</span> Comparaisons multiples permettant de contrôler le niveau global de tous les tests</a></li>
+  <li><a href="#méthodes-tukey-et-games-howell" id="toc-méthodes-tukey-et-games-howell" class="nav-link" data-scroll-target="#méthodes-tukey-et-games-howell"><span class="header-section-number">1.12</span> Méthodes Tukey et Games-Howell</a></li>
+  <li><a href="#méthode-de-dunnett" id="toc-méthode-de-dunnett" class="nav-link" data-scroll-target="#méthode-de-dunnett"><span class="header-section-number">1.13</span> Méthode de Dunnett</a></li>
+  <li><a href="#comparaisons-multiples-sans-contrôler-le-niveau-global-de-tous-les-tests" id="toc-comparaisons-multiples-sans-contrôler-le-niveau-global-de-tous-les-tests" class="nav-link" data-scroll-target="#comparaisons-multiples-sans-contrôler-le-niveau-global-de-tous-les-tests"><span class="header-section-number">1.14</span> Comparaisons multiples sans contrôler le niveau global de tous les tests</a></li>
+  <li><a href="#méthode-lsd" id="toc-méthode-lsd" class="nav-link" data-scroll-target="#méthode-lsd"><span class="header-section-number">1.15</span> Méthode LSD</a></li>
+  <li><a href="#méthode-test-t-du-thème-précédent" id="toc-méthode-test-t-du-thème-précédent" class="nav-link" data-scroll-target="#méthode-test-t-du-thème-précédent"><span class="header-section-number">1.16</span> Méthode Test-T du thème précédent</a></li>
+  <li><a href="#résumé-analyse-de-la-variance-anova-à-1-facteur-contrôlé" id="toc-résumé-analyse-de-la-variance-anova-à-1-facteur-contrôlé" class="nav-link" data-scroll-target="#résumé-analyse-de-la-variance-anova-à-1-facteur-contrôlé"><span class="header-section-number">1.17</span> Résumé : Analyse de la variance – Anova à 1 facteur contrôlé</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Thème 3: ANOVA à un facteur</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="comparaison-de-plusieurs-groupes-échantillons-indépendants-anova-à-1-facteur" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="comparaison-de-plusieurs-groupes-échantillons-indépendants-anova-à-1-facteur"><span class="header-section-number">1</span> Comparaison de plusieurs groupes échantillons indépendants: ANOVA à 1 facteur</h2>
+<section id="comparaison-de-plusieurs-groupes-échantillons-indépendants" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="comparaison-de-plusieurs-groupes-échantillons-indépendants"><span class="header-section-number">1.1</span> Comparaison de plusieurs groupes – Échantillons indépendants</h3>
+<p><strong>Mise en situation 1</strong></p>
+<p>Un responsable du service des ventes d’une grande chaine de magasins s’intéresse à évaluer le niveau de ventes totales à travers les régions.</p>
+<p><strong>Données</strong></p>
+<p>Le gestionnaire dispose d’un échantillon de 200 transactions effectuées au courant de l’année.</p>
+<p><strong>Variables</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Nom_Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Transaction</td>
+<td style="text-align: left;">Numéro de la transaction</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Région</td>
+<td style="text-align: left;">Région d’emplacement du magasin (Est = 1, Nord = 2, Sud = 3, Ouest = 4)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Publicité</td>
+<td style="text-align: left;">Période de campagne publicitaire (Oui = 1, Non = 0)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sexe</td>
+<td style="text-align: left;">Sexe du client (Homme = 1, Femme = 2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ventes_musique</td>
+<td style="text-align: left;">Ventes dans le département de musique (ventes de CD)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ventes_livres</td>
+<td style="text-align: left;">Ventes dans le département des livres</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ventes_électronique</td>
+<td style="text-align: left;">Ventes dans le département de l’électronique</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ventes_totales</td>
+<td style="text-align: left;">Total des ventes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Le fichier « Ventes.csv » contient des données relatives à cette mise en situation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir le répertoire de travail</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/Fatou/OneDrive - HEC Montréal/PROJET SUPERVISE/Data"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger les données</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ventes <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"Ventes.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Convertir les variables en facteur </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ventes<span class="sc">$</span>Région <span class="ot">=</span> <span class="fu">as.factor</span>(ventes<span class="sc">$</span>Région)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ventes<span class="sc">$</span>Publicité <span class="ot">=</span> <span class="fu">as.factor</span>(ventes<span class="sc">$</span>Publicité)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ventes<span class="sc">$</span>sexe <span class="ot">=</span> <span class="fu">as.factor</span>(ventes<span class="sc">$</span>sexe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Statistiques descriptives</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul des statistiques descriptives des ventes totales par région  </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>stat_desc_region <span class="ot">=</span> ventes <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Région) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">n</span>(),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Moyenne =</span> <span class="fu">mean</span>(ventes_totales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ecart_Type =</span> <span class="fu">sd</span>(ventes_totales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Erreur_Standard =</span> Ecart_Type <span class="sc">/</span> <span class="fu">sqrt</span>(N),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Borne_inf =</span> Moyenne <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> Erreur_Standard,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Borne_sup =</span> Moyenne <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> Erreur_Standard,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Minimum =</span> <span class="fu">min</span>(ventes_totales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Maximum =</span> <span class="fu">max</span>(ventes_totales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Afficher les résultats</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(stat_desc_region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 9
+  Région     N Moyenne Ecart_Type Erreur_Standard Borne_inf Borne_sup Minimum
+  &lt;fct&gt;  &lt;int&gt;   &lt;dbl&gt;      &lt;dbl&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;int&gt;
+1 1         36    760.      106.             17.6      726.      795.     560
+2 2         69    730.      101.             12.2      706.      754.     440
+3 3         45    687.       83.5            12.4      663.      711.     515
+4 4         50    792.      101.             14.3      764.      820.     495
+# ℹ 1 more variable: Maximum &lt;int&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Création d'un boxplot pour visualiser la distribution des ventes totales par région  </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ventes, <span class="fu">aes</span>(<span class="at">x =</span> Région, <span class="at">y =</span> ventes_totales)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution des ventes par Région"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Région"</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Ventes Totales"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T3-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul de la moyenne des ventes totales par région  </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vente <span class="ot">=</span> ventes <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Région) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Moyenne_vente =</span> <span class="fu">mean</span>(ventes_totales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Création d'un graphique en ligne pour représenter la moyenne des ventes par région  </span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vente, <span class="fu">aes</span>(<span class="at">x =</span> Région, <span class="at">y =</span> Moyenne_vente, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span>  <span class="co"># Ligne noire reliant les points</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Moyenne des ventes par région"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Région"</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Moyenne des ventes totales"</span>) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T3-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="anova-à-1-facteur" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="anova-à-1-facteur"><span class="header-section-number">1.2</span> ANOVA à 1 facteur</h3>
+<p><span class="math display">\[
+\begin{aligned}
+K \text{ niveaux :} &amp; \quad 1 \quad 2 \quad \dots \quad K \\
+\text{Variable :} &amp; \quad Y_1 \quad Y_2 \quad \dots \quad Y_K \\
+\text{Moyenne :} &amp; \quad \mu_1 \quad \mu_2 \quad \dots \quad \mu_K \\
+\text{Variance :} &amp; \quad \sigma_1^2 \quad \sigma_2^2 \quad \dots \quad \sigma_K^2
+\end{aligned}
+\]</span></p>
+<p>Les niveaux des facteurs définissent les K populations ou groupes (dans l’exemple…)</p>
+<p><span class="math display">\[
+H_0 : \mu_1 = \mu_2 = \dots = \mu_K \quad\text{vs. }\quad
+H_1 : \text{au moins 2 moyennes sont différentes}
+\]</span></p>
+<p>Dans notre exemple:</p>
+<p><strong>La variable dépendante</strong> = Ventes totales <strong>Le facteur</strong> = région ( 4 niveaux)</p>
+</section>
+<section id="test-classique-le-test-de-fisher" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="test-classique-le-test-de-fisher"><span class="header-section-number">1.3</span> Test classique: Le Test de Fisher</h3>
+<p>Les conditions d’utilisation du Test F:</p>
+<p><span class="math display">\[
+1. \text{ Les } Y_i \text{ sont de loi normale } \mathbf{ou} \text{ les tailles d’échantillons sont assez grandes.} \\
+2. \sigma_1^2 = \sigma_2^2 = \dots = \sigma_K^2 = \sigma^2 \quad : \quad \textbf{Homogénéité des variances.} \\
+3. \text{ Les } K \text{ échantillons sont prélevés de manière } \mathbf{indépendante.}
+\]</span></p>
+<p>Prélever K échantillons indépendants :</p>
+<p><span class="math display">\[
+\begin{array}{c|cccc}
+&amp; 1 &amp; 2 &amp; \dots &amp; K \\
+\hline
+\textbf{Taille} &amp; n_1 &amp; n_2 &amp; \dots &amp; n_K \\
+\textbf{Observations} &amp; Y_{11}, Y_{12}, \dots, Y_{1n_1} &amp; Y_{21}, Y_{22}, \dots, Y_{2n_2} &amp; \dots &amp; Y_{K1}, Y_{K2}, \dots, Y_{Kn_K} \\
+\textbf{Moyenne} &amp; \overline{Y}_1 &amp; \overline{Y}_2 &amp; \dots &amp; \overline{Y}_K \\
+\textbf{Variance} &amp; s_1^2 &amp; s_2^2 &amp; \dots &amp; s_K^2
+\end{array}
+\]</span></p>
+</section>
+<section id="décomposition-de-la-variabilité-totale-ssc-ssg-sse" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="décomposition-de-la-variabilité-totale-ssc-ssg-sse"><span class="header-section-number">1.4</span> Décomposition de la variabilité totale : SSc = SSg + SSe</h3>
+<p><span class="math display">\[
+\begin{array}{|l|l|}
+\hline
+\textbf{Variabilité totale autour de la moyenne globale :} &amp; SS_c = \sum \sum (Y_{ij} - \overline{Y})^2 \\
+\hline
+\textbf{Variabilité expliquée par le facteur (inter-groupe) :} &amp; SS_g = \sum n_i (\overline{Y}_i - \overline{Y})^2 \\
+\hline
+\textbf{Variabilité due à l’erreur (intra-groupe) :} &amp; SS_e = \sum \sum (Y_{ij} - \overline{Y}_i)^2 \\
+\hline
+\end{array}
+\]</span></p>
+<p><span class="math display">\[
+\textbf{Statistique du test :} \quad
+F = \frac{SS_g / (K-1)}{SS_e / (N-K)} \quad \text{où } (N = n_1 + n_2 + \dots + n_K)
+\]</span></p>
+</section>
+<section id="test-f-de-fisher" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="test-f-de-fisher"><span class="header-section-number">1.5</span> Test F de Fisher</h3>
+<ul>
+<li><p>Si H₀ est vraie, on s’attend à ce que la variabilité entre les différents groupes soit faible, i.e.&nbsp;à ce que F soit petit.</p></li>
+<li><p>Si H₀ est vraie, F ~ Fisher à (K-1) et (N-K) degrés de liberté.</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T3-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="vérification-de-la-condition-2-homogénéité-des-variances" class="level4" data-number="1.5.1">
+<h4 data-number="1.5.1" class="anchored" data-anchor-id="vérification-de-la-condition-2-homogénéité-des-variances"><span class="header-section-number">1.5.1</span> 1.Vérification de la condition 2: Homogénéité des variances</h4>
+<p><span class="math display">\[
+H_0: \sigma^2_1 = \sigma^2_2 = \sigma^2_3 = \sigma^2_4\quad \text {vs.}\quad\ H_1: \text{au moins deux variances non égales}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chargement du package car pour effectuer le test de Levene </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)   </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Levene pour vérifier l'homogénéité des variances des ventes totales entre les régions  </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(ventes_totales <span class="sc">~</span> Région, <span class="at">data =</span> ventes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+       Df F value Pr(&gt;F)
+group   3  0.4272 0.7337
+      196               </code></pre>
+</div>
+</div>
+<p>La p-value=0.750 &gt;0.05, on ne rejette pas H₀. On peut donc supposer l’égalité des variances entre les groupes.</p>
+<ul>
+<li><p>La condition 2 est respectée.</p></li>
+<li><p><strong>Les conditions 1 et 3 le sont également</strong>. En effet, les 4 groupes sont indépendants et les tailles des échantillons sont assez grandes (&gt;30, TCL) pour justifier l’utilisation du test F.</p></li>
+</ul>
+</section>
+<section id="comparaison-des-moyennes-des-4-groupes" class="level4" data-number="1.5.2">
+<h4 data-number="1.5.2" class="anchored" data-anchor-id="comparaison-des-moyennes-des-4-groupes"><span class="header-section-number">1.5.2</span> 2.Comparaison des moyennes des 4 groupes</h4>
+<p><span class="math display">\[
+H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4\quad \text {vs.}\quad\ H_1: \text{au moins deux moyennes non égales}
+\]</span></p>
+<p><strong>Résultat du Test-F:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA pour tester l'effet de la région sur les ventes totales  </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>anova_region <span class="ot">=</span> <span class="fu">aov</span>(ventes_totales <span class="sc">~</span> Région, <span class="at">data =</span> ventes)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df  Sum Sq Mean Sq F value   Pr(&gt;F)    
+Région        3  286095   95365   9.893 4.19e-06 ***
+Residuals   196 1889367    9640                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Le rejet de H₀ avec le test F(p-value=0 &lt; 0.05) indique seulement que les moyennes des populations de référence ne sont pas égales. Il y a au moins deux moyennes différentes mais rien ne nous indique spécifiquement où résident les différences.</p>
+</section>
+</section>
+<section id="importance-de-leffet-du-facteur" class="level3" data-number="1.6">
+<h3 data-number="1.6" class="anchored" data-anchor-id="importance-de-leffet-du-facteur"><span class="header-section-number">1.6</span> Importance de l’effet du facteur</h3>
+<p>Si on rejette H₀ ,on peut être intéressé à mesurer « l’importance » de l’effet du facteur région.</p>
+<p><span class="math display">\[
+\eta^2 = \frac{SS_g}{SS_c} = \frac{\sum_{i=1}^{K} n_i (\overline{Y}_i - \overline{Y})^2}{\sum \sum (Y_{ij} - \overline{Y})^2} \quad \text{( « eta squared » - varie de 0 à 1 )}
+\]</span></p>
+<ul>
+<li><p>Dans cet exemple, 13.15% de la variabilité observée dans les ventes totales est expliqué par le facteur région.</p></li>
+<li><p>On poursuivra avec des <strong>analyses plus fines des résultats</strong> en effectuant des comparaisons multiples (comparaisons des groupes 2 à 2, comparaisons de tous les groupes avec un groupe de contrôle ou contrastes).</p></li>
+</ul>
+</section>
+<section id="que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites" class="level3" data-number="1.7">
+<h3 data-number="1.7" class="anchored" data-anchor-id="que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites"><span class="header-section-number">1.7</span> Que faire si les conditions du Test-F ne sont pas satisfaites ?</h3>
+<p><strong>Condition 2 :</strong><br>
+<span class="math display">\[
+\sigma_1^2 = \sigma_2^2 = \dots = \sigma_K^2 = \sigma^2 \quad (\text{constante})
+\]</span></p>
+<p>Si les variances des k populations ne sont pas égales (rejet de H₀: homogénéité de la variance), on ne peut plus se fier à la loi Fisher pour approcher la distribution de la statistique du test F (ni aux p-value qui en découlent).</p>
+<p><strong>Alternative du test F</strong></p>
+<p>Si les tailles des échantillons sont assez grandes,<br>
+on suggère, en pareil cas, d’utiliser les tests de <strong>Brown-Forsythe</strong> et de <strong>Welch</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Brown-Forsythe (variation du test de Levene en utilisant la médiane comme centre)  </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>test_brown_forsythe <span class="ot">=</span> <span class="fu">leveneTest</span>(ventes_totales <span class="sc">~</span> Région, <span class="at">data =</span> ventes, <span class="at">center =</span> median)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Welch pour comparer les moyennes des ventes entre les régions (sans supposer l'égalité des variances)  </span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>welch_test <span class="ot">=</span> <span class="fu">oneway.test</span>(ventes_totales <span class="sc">~</span> Région, <span class="at">data =</span> ventes, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(test_brown_forsythe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+       Df F value Pr(&gt;F)
+group   3  0.4272 0.7337
+      196               </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(welch_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One-way analysis of means (not assuming equal variances)
+
+data:  ventes_totales and Région
+F = 10.971, num df = 3.000, denom df = 98.779, p-value = 2.789e-06</code></pre>
+</div>
+</div>
+</section>
+<section id="que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites-1" class="level3" data-number="1.8">
+<h3 data-number="1.8" class="anchored" data-anchor-id="que-faire-si-les-conditions-du-test-f-ne-sont-pas-satisfaites-1"><span class="header-section-number">1.8</span> Que faire si les conditions du Test-F ne sont pas satisfaites ?</h3>
+<p><strong>Condition 1 :</strong> Les Yi sont de loi normale <strong>ou</strong> les tailles d’échantillons sont assez grandes.</p>
+<p>Si la condition 1 n’est pas satisfaite, le test non-paramétrique de <strong>Kruskal-Wallis</strong> (basé sur les rangs des observations) peut s’avérer plus puissant que le test F. De plus, le test F, tout comme le test T, est sensible aux valeurs extrêmes et n’est pas vraiment adéquat pour des variables ordinales.</p>
+<p>En pareils cas, on suggère donc d’utiliser <strong>le Test de Kruskal Wallis</strong>. Ce test se base sur le rang des observations des K échantillons (k niveaux du facteur) combinés (généralisation du test MWW vu à la séance 2).</p>
+<p><strong>Remarque</strong> : Si les tailles d’échantillons ne sont pas assez grandes <strong>et / ou</strong> si la variable dépendante est ordinale et / ou présence de beaucoup de valeurs extrêmes, alors on fait le Test de Kruskal Wallis H.</p>
+<p><strong>Le Test de Kruskal Wallis:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Kruskal Wallis pour comparer la distribution des ventes totales entre les régions  </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>test_kruskal <span class="ot">=</span> <span class="fu">kruskal.test</span>(ventes_totales <span class="sc">~</span> Région, <span class="at">data =</span> ventes)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage des résultats du test  </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(test_kruskal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  ventes_totales by Région
+Kruskal-Wallis chi-squared = 29.31, df = 3, p-value = 1.927e-06</code></pre>
+</div>
+</div>
+<p><strong>Remarque</strong> : Si H₀ est vraie, la statistique KW obéit à une loi du Khi-deux à (k-1) degrés de liberté. La p-value donnée dans R est basée sur cette approximation.</p>
+</section>
+<section id="analyse-fine-des-résultat" class="level3" data-number="1.9">
+<h3 data-number="1.9" class="anchored" data-anchor-id="analyse-fine-des-résultat"><span class="header-section-number">1.9</span> Analyse fine des résultat</h3>
+<p>Le rejet de H₀ avec le test F (ou un autre test) indique seulement que les moyennes des populations ne sont pas toutes égales, c’est-à-dire qu’il y en a au moins deux qui sont différentes. Cela ne nous dit toutefois pas spécifiquement où se situent les différences, et dans quel sens.</p>
+<p><strong>Comparer 2 à 2 toutes les paires de moyennes :</strong></p>
+<p><span class="math display">\[
+\text{Tests} \quad H_0: \mu_i = \mu_j \quad \text{vs} \quad H_1: \mu_i \neq \mu_j
+\]</span></p>
+<p><span class="math display">\[
+\text{Intervalles de confiance pour toutes les différences } \mu_i - \mu_j.
+\]</span></p>
+<p>(Avec K groupes : <strong>K(K −1)/2</strong> tests et intervalles de confiance)</p>
+<p><strong>Problème qui survient lorsque plusieurs tests de même seuil de signification α (par exemple 5%) sont effectués dans une même étude :</strong></p>
+<p>Seuil global des tests effectués<br>
+= probabilité de rejeter H₀ au moins une fois (si H₀ est vraie).</p>
+<p>Pour r tests de même seuil de signification α, le seuil global sera égal à 1 - (1 - α)<sup>r</sup> :</p>
+<p>Par exemple:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Tableau des niveaux de confiance et seuils globaux</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">Nb..Comparaisons.indep...r.</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X1</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X2</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X3</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X4</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X5</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X6</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X7</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X8</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X9</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; font-weight: bold; background-color: lightblue !important;">X10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Niv. conf. global (1-α)</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">0.9025</td>
+<td style="text-align: center;">0.8574</td>
+<td style="text-align: center;">0.8145</td>
+<td style="text-align: center;">0.7738</td>
+<td style="text-align: center;">0.7351</td>
+<td style="text-align: center;">0.6983</td>
+<td style="text-align: center;">0.6634</td>
+<td style="text-align: center;">0.6302</td>
+<td style="text-align: center;">0.5987</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Seuil global (α)</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">0.0975</td>
+<td style="text-align: center;">0.1426</td>
+<td style="text-align: center;">0.1855</td>
+<td style="text-align: center;">0.2262</td>
+<td style="text-align: center;">0.2649</td>
+<td style="text-align: center;">0.3017</td>
+<td style="text-align: center;">0.3366</td>
+<td style="text-align: center;">0.3698</td>
+<td style="text-align: center;">0.4013</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</section>
+<section id="méthode-de-comparaison-multiple" class="level3" data-number="1.10">
+<h3 data-number="1.10" class="anchored" data-anchor-id="méthode-de-comparaison-multiple"><span class="header-section-number">1.10</span> Méthode de comparaison multiple</h3>
+<p>Il existe de nombreuses méthodes qui permettent d’effectuer plusieurs tests ou construire plusieurs intervalles de confiance <strong>en contrôlant le niveau global.</strong></p>
+<p>Certaines sont très simples et applicables dans à peu près n’importe quel contexte comme <strong>la méthode (ou correction) de Bonferroni</strong> qui consiste simplement à ajuster le seuil de chaque test en divisant le seuil global par le nombre de tests à effectuer.</p>
+<p>D’autres sont spécifiques à la comparaison 2 à 2 des groupes dans une ANOVA.</p>
+</section>
+<section id="comparaisons-multiples-permettant-de-contrôler-le-niveau-global-de-tous-les-tests" class="level3" data-number="1.11">
+<h3 data-number="1.11" class="anchored" data-anchor-id="comparaisons-multiples-permettant-de-contrôler-le-niveau-global-de-tous-les-tests"><span class="header-section-number">1.11</span> Comparaisons multiples permettant de contrôler le niveau global de tous les tests</h3>
+<p><em>Si les variances des populations sont égales :</em></p>
+<ul>
+<li><p>Pour comparer 2 à 2 toutes les moyennes (K(K −1)/2 tests) : <strong>Méthode de Tukey (HSD)</strong></p></li>
+<li><p>Pour comparer avec un groupe de contrôle (K-1 tests) : <strong>Méthode de Dunnett</strong></p>
+<p><em>Si les variances des populations ne sont pas toutes égales :</em></p></li>
+<li><p>Pour comparer 2 à 2 toutes les moyennes : <strong>Méthode de Games-Howell</strong></p></li>
+</ul>
+</section>
+<section id="méthodes-tukey-et-games-howell" class="level3" data-number="1.12">
+<h3 data-number="1.12" class="anchored" data-anchor-id="méthodes-tukey-et-games-howell"><span class="header-section-number">1.12</span> Méthodes Tukey et Games-Howell</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir un miroir CRAN </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cran.rstudio.com/"</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger les packages nécessaires pour Tukey Test et pour games_howell_test</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"multcomp"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>le package 'multcomp' a été décompressé et les sommes MD5 ont été vérifiées avec succés
+
+Les packages binaires téléchargés sont dans
+    C:\Users\Fatou\AppData\Local\Temp\RtmpS0xNj9\downloaded_packages</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rstatix"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>le package 'rstatix' a été décompressé et les sommes MD5 ont été vérifiées avec succés
+
+Les packages binaires téléchargés sont dans
+    C:\Users\Fatou\AppData\Local\Temp\RtmpS0xNj9\downloaded_packages</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test post-hoc de Tukey pour comparer les moyennes des ventes entre les régions  </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>tukey <span class="ot">=</span> <span class="fu">TukeyHSD</span>(anova_region)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage des résultats du test de Tukey  </span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tukey)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = ventes_totales ~ Région, data = ventes)
+
+$Région
+         diff        lwr        upr     p adj
+2-1 -30.63406  -82.94002  21.671900 0.4289260
+3-1 -73.52778 -130.41534 -16.640217 0.0053325
+4-1  31.98333  -23.62569  87.592359 0.4452826
+3-2 -42.89372  -91.64140   5.853958 0.1062310
+4-2  62.61739   15.36800 109.866785 0.0040153
+4-3 105.51111   53.23505 157.787172 0.0000026</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Games-Howell pour comparer les moyennes des ventes entre les régions sans supposer l'homogénéité des variances  </span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>games_howell <span class="ot">=</span> <span class="fu">games_howell_test</span>(ventes, ventes_totales <span class="sc">~</span> Région, <span class="at">conf.level =</span> <span class="fl">0.95</span>, <span class="at">detailed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage des résultats du test de Games-Howell  </span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(games_howell)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  .y.            group1 group2 estimate conf.low conf.high    p.adj p.adj.signif
+* &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+1 ventes_totales 1      2         -30.6    -86.9     25.7   4.83e-1 ns          
+2 ventes_totales 1      3         -73.5   -130.     -16.7   6   e-3 **          
+3 ventes_totales 1      4          32.0    -27.6     91.5   4.96e-1 ns          
+4 ventes_totales 2      3         -42.9    -88.3      2.51  7.1 e-2 ns          
+5 ventes_totales 2      4          62.6     13.7    112.    6   e-3 **          
+6 ventes_totales 3      4         106.      55.9    155.    1.48e-6 ****        </code></pre>
+</div>
+</div>
+</section>
+<section id="méthode-de-dunnett" class="level3" data-number="1.13">
+<h3 data-number="1.13" class="anchored" data-anchor-id="méthode-de-dunnett"><span class="header-section-number">1.13</span> Méthode de Dunnett</h3>
+<p>Supposons qu’on fixe la région 4 comme groupe de contrôle et qu’on veuille vérifier si les ventes moyennes dans les trois autres régions sont différentes des ventes moyennes de la région 4.</p>
+<p><strong>Tests à effectuer</strong></p>
+<p>Dans ce contexte, on a seulement 3 tests à effectuer (K-1 tests).</p>
+<p><strong>Exercice</strong></p>
+<p>Formuler les tests d’hypothèses correspondants à la comparaisons de moyennes par rapport au groupe contrôle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Charger les packages nécessaires pour Dunette Test</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"DescTools"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>le package 'DescTools' a été décompressé et les sommes MD5 ont été vérifiées avec succés</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Les packages binaires téléchargés sont dans
+    C:\Users\Fatou\AppData\Local\Temp\RtmpS0xNj9\downloaded_packages</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Dunnett pour comparer chaque région à la région 4   </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>dunnett_test <span class="ot">=</span> <span class="fu">DunnettTest</span>(ventes<span class="sc">$</span>ventes_totales, ventes<span class="sc">$</span>Région, <span class="at">control =</span> <span class="st">"4"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats   </span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dunnett_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Dunnett's test for comparing several treatments with a control :  
+    95% family-wise confidence level
+
+$`4`
+          diff     lwr.ci    upr.ci    pval    
+1-4  -31.98333  -82.83187  18.86520  0.3153    
+2-4  -62.61739 -105.82193 -19.41285  0.0022 ** 
+3-4 -105.51111 -153.31201 -57.71022 1.3e-06 ***
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="comparaisons-multiples-sans-contrôler-le-niveau-global-de-tous-les-tests" class="level3" data-number="1.14">
+<h3 data-number="1.14" class="anchored" data-anchor-id="comparaisons-multiples-sans-contrôler-le-niveau-global-de-tous-les-tests"><span class="header-section-number">1.14</span> Comparaisons multiples sans contrôler le niveau global de tous les tests</h3>
+<p>Dans certains contextes d’études exploratoires ou d’analyses préliminaires il n’est pas nécessaire de contrôler le niveau global de tous les tests. Dans pareil cas:</p>
+<ul>
+<li><p>Si les variances des populations sont égales : <strong>Méthode LSD</strong></p></li>
+<li><p>Si les variances des populations ne sont pas toutes égales : <strong>Test-T</strong> (vu antérieurement)</p></li>
+</ul>
+</section>
+<section id="méthode-lsd" class="level3" data-number="1.15">
+<h3 data-number="1.15" class="anchored" data-anchor-id="méthode-lsd"><span class="header-section-number">1.15</span> Méthode LSD</h3>
+<pre><code></code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Charger la librairie emmeans</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Test LSD pour comparer les moyennes des ventes entre les régions  </span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>lsd_test <span class="ot">&lt;-</span> <span class="fu">pairs</span>(<span class="fu">emmeans</span>(anova_region, <span class="sc">~</span> Région), <span class="at">adjust =</span> <span class="st">"none"</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lsd_test, <span class="at">infer =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast          estimate   SE  df lower.CL upper.CL t.ratio p.value
+ Région1 - Région2     30.6 20.2 196    -9.18     70.4   1.518  0.1307
+ Région1 - Région3     73.5 22.0 196    30.23    116.8   3.349  0.0010
+ Région1 - Région4    -32.0 21.5 196   -74.31     10.3  -1.490  0.1377
+ Région2 - Région3     42.9 18.8 196     5.79     80.0   2.280  0.0237
+ Région2 - Région4    -62.6 18.2 196   -98.58    -26.7  -3.434  0.0007
+ Région3 - Région4   -105.5 20.2 196  -145.30    -65.7  -5.230  &lt;.0001
+
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+</section>
+<section id="méthode-test-t-du-thème-précédent" class="level3" data-number="1.16">
+<h3 data-number="1.16" class="anchored" data-anchor-id="méthode-test-t-du-thème-précédent"><span class="header-section-number">1.16</span> Méthode Test-T du thème précédent</h3>
+<p><strong>Remarque</strong> : On fait la méthode du Test-T pour chaque paire de comparaison. On a 4 regions, donc on effectue 4(4-1)/2 = 6 tests T</p>
+<p>Exemple: Comparaison du groupe 1 et 4</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer les données pour ne conserver que les régions 1 et 4  </span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>ventes_1_4 <span class="ot">=</span> <span class="fu">subset</span>(ventes, Région <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Levene pour vérifier l'homogénéité des variances entre les régions 1 et 4 </span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>levene_1_4 <span class="ot">=</span> <span class="fu">leveneTest</span>(ventes_totales <span class="sc">~</span> Région, <span class="at">data =</span> ventes_1_4)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(levene_1_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+      Df F value Pr(&gt;F)
+group  1  0.1338 0.7154
+      84               </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test t de Student pour comparer les moyennes des ventes entre les régions 1 et 4 (en supposant l'égalité des variances)  </span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>t_test_1_4 <span class="ot">=</span> <span class="fu">t.test</span>(ventes_totales <span class="sc">~</span> Région, <span class="at">data =</span> ventes_1_4, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(t_test_1_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  ventes_totales by Région
+t = -1.4219, df = 84, p-value = 0.1587
+alternative hypothesis: true difference in means between group 1 and group 4 is not equal to 0
+95 percent confidence interval:
+ -76.71254  12.74587
+sample estimates:
+mean in group 1 mean in group 4 
+       760.4167        792.4000 </code></pre>
+</div>
+</div>
+<p><strong>Mise en situation 2</strong></p>
+<p>Autowebdo.com est un site web qui s’adresse aux acheteurs potentiels de voitures neuves et usagées. On y retrouve des informations détaillées sur la valeur et sur les principales caractéristiques et options de toutes les marques et tous les modèles. On peut également y acheter une auto neuve en ligne. Récemment, un sondage a été effectué auprès d’un échantillon d’acheteurs de voitures ayant visité le site au cours des 3 derniers mois. Tous les participants ont visité le site au moins une fois avant d’effectuer leur achat. Certains d’entre eux ont acheté leur véhicule en ligne sur Autowebdo.com mais d’autres l’ont acheté d’un concessionnaire. On s’intéresse à étudier ici le pouvoir de négociation des acheteurs selon leur revenu et leur âge.</p>
+<p><strong>Variables</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 88%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Nom_Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Prix</td>
+<td style="text-align: left;">Prix payé pour l’achat du véhicule</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Revenu</td>
+<td style="text-align: left;">Catégorie de revenu de l’acheteur (1: &lt;60 000<span class="math inline">\(, 2: 60 000\)</span>-89 999<span class="math inline">\(, 3: 90 000\)</span>-119 999<span class="math inline">\(, 4: ≥120 000\)</span>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Âge</td>
+<td style="text-align: left;">Catégorie d’âge de l’acheteur (1: &lt;25 ans, 2: 25-39 ans, 3: 40-54 ans, 4: ≥55 ans)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br>
+Les données sont dans le fichier autowebdo.csv.</p>
+<p><strong>Questions:</strong></p>
+<p>1- Peut-on conclure que le prix moyen réel payé pour le véhicule diffère selon le revenu familial annuel brut ? Si oui, poursuivre l’analyse en comparant les catégories de revenus 2 à 2 afin de détecter où se trouvent les différences et, s’il y a lieu, quantifier ces différences à l’aide d’un intervalle de confiance. Utiliser une méthode qui contrôle le niveau global.</p>
+<p>2- Peut-on conclure que le prix moyen réel payé pour le véhicule diffère selon l’âge ? Si oui, poursuivre l’analyse en comparant les catégories d’âge 2 à 2 afin de détecter où se trouvent les différences et, s’il y a lieu, quantifier ces différences à l’aide d’un intervalle de confiance. Utiliser une méthode qui contrôle le niveau global.</p>
+</section>
+<section id="résumé-analyse-de-la-variance-anova-à-1-facteur-contrôlé" class="level3" data-number="1.17">
+<h3 data-number="1.17" class="anchored" data-anchor-id="résumé-analyse-de-la-variance-anova-à-1-facteur-contrôlé"><span class="header-section-number">1.17</span> Résumé : Analyse de la variance – Anova à 1 facteur contrôlé</h3>
+<p><strong>Étape 1</strong> : Comparaison graphique (Boxplot et Graph mean plots).</p>
+<p><strong>Étape 2</strong> : Valider les conditions d’utilisation du test F de Fisher :</p>
+<p>a) Les Yᵢ sont de loi normale ou les tailles d’échantillons sont assez grandes (n&gt;30).</p>
+<p>b) Il est possible de supposer l’égalité des variances au niveau des populations de référence. -&gt; Effectuer le test de Levene.</p>
+<p>c) Les K échantillons sont prélevés de manière indépendante.</p>
+<p><strong>Étape 3</strong> : Si les trois conditions sont respectées, alors effectuer le <strong>test F de Fisher.</strong> **</p>
+<p><strong>Étape 4</strong>&nbsp;: Si rejet de H₀ (c.-à-d., qu’il existe au moins deux groupes dont les moyennes sont différentes), alors procéder à des <strong>analyses fines.</strong></p>
+<p>-4.1 Mesurer l’importance de l’effet du facteur.</p>
+<p>-4.2 Effectuer des comparaisons multiples.</p>
+<p>** Si la condition est violée</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="LIVRABLE_T3-DESKTOP-OQF5J47_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<pre><code></code></pre>
+<p><img src="images/clipboard-604802632.png" class="img-fluid"></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
